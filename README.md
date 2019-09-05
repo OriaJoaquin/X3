@@ -10,5 +10,5 @@ Grupo: X3 <br />
 * [Oria, Joaquín Ariel](https://github.com/OriaJoaquin)<br /> 
 * [Schiro, Andrés](https://github.com/ASchiro)<br /> 
 
-Proyecto: <br /> 
+Proyecto: ReciclaMe<br /> 
 ---------
