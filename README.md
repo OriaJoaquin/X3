@@ -37,3 +37,14 @@ Posee 2 leds, uno de los cuales indica que el módulo está alimentado y el otro
 
 El servo SG90 Tower Pro un servo miniatura de gran calidad y diminutas dimensiones, además es bastante económico. Funciona con la mayoría de tarjetas electrónicas de control con microcontroladores y además con la mayoría de los sistemas de radio control comerciales. Funciona especialmente bien en aeronaves dadas sus características de torque, tamaño y peso.
 El servo SG90 tiene un conector universal tipo “S” que encaja perfectamente en la mayoría de los receptores de radio control incluyendo los Futaba, JR, GWS, Cirrus, Hitec y otros. Los cables en el conector están distribuidos de la siguiente forma: Rojo = Alimentación (+), Cafe = Alimentación (-) o tierra, Orange = Señal PWM.
+
+* Sensor de peso
+
+![ImagenSensorPeso](https://http2.mlstatic.com/celda-carga-sensor-peso-5kg-interfaz-hx711mona-D_NQ_NP_730892-MLA31022349955_062019-F.webp)
+
+Sensor de peso o fuerza de 5 kg. El Sensor de Peso o Fuerza de 5kg es un sensor de celda de carga, que puede medir hasta poco más de 5 kg de peso, convirtiendo dicha variable de fuerza en una señal eléctrica, gracias a su confiabilidad es ampliamente utilizado en proyectos de medición de peso y básculas. Un sensor de celda de carga se encarga de convertir una fuerza o peso en una señal de voltaje, así que el peso que ejerza el objeto corresponderá a una cantidad de voltaje determinada.
+
+* Módulo Bluetooth
+![ImagenModuloBluetooth](https://www.todomicro.com.ar/487-large_default/modulo-bluetooth-hc-06.jpg)
+
+Permite añadir a Arduino la función de poder comunicarse sin cables con otros dispositivos mediante la tecnología Bluetooth.
