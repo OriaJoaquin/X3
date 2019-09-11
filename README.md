@@ -42,13 +42,13 @@ Aplicando un ancho de pulso por debajo del punto de reposo, provocara la rotaci�
 
 * Celda de Carga
 
-![ImagenSensorPeso](https://electronilab.co/wp-content/uploads/2018/01/Celda-de-carga-5kg-sensor-de-Fuerza-o-Peso-2.jpg)
+![ImagenSensorPeso](http://tdrobotica.co/2463/celda-de-carga-de-1-kg-barra-recta.jpg)
 
 Sensor de peso o fuerza de 5 kg. El Sensor de Peso o Fuerza de 5kg es un sensor de celda de carga, que puede medir hasta poco más de 5 kg de peso, convirtiendo dicha variable de fuerza en una señal eléctrica, gracias a su confiabilidad es ampliamente utilizado en proyectos de medición de peso y básculas. Un sensor de celda de carga se encarga de convertir una fuerza o peso en una señal de voltaje, así que el peso que ejerza el objeto corresponderá a una cantidad de voltaje determinada.
 
 * Transmisor de Cela de Carga
 
-![ImagenTransmisorCelda](http://tdrobotica.co/2463/celda-de-carga-de-1-kg-barra-recta.jpg)
+![ImagenTransmisorCelda](http://www.naylampmechatronics.com/464-large_default/modulo-hx711-transmisor-de-celda-de-carga.jpg)
 
 Este módulo es una interface entre las celdas de carga y el microcontrolador, permitiendo poder leer el peso de manera sencilla. Internamente se encarga de la lectura del puente wheatstone formado por la celda de carga, convirtiendo la lectura analógica a digital con su conversor A/D interno de 24 bits.
 Es muy utilizado en procesos industriales, sistemas de medición automatizada e industria médica.
