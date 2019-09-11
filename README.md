@@ -65,6 +65,12 @@ Se comunica con el microcontrolador mediante 2 pines (Clock y Data) de forma ser
 
 Permite añadir a Arduino la función de poder comunicarse sin cables con otros dispositivos mediante la tecnología Bluetooth.
 
+  
+* Led de color
+
+![ImagenLED](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTudfUA01j969DuZr_-SODUrnwSnZLblGCH87OsoMiGVBGeT_ajYA)
+
+Indicarán el tipo de material que se ingresó en la recicladora.  
 
 ### Diagrama físico
 
