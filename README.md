@@ -45,6 +45,6 @@ El servo SG90 tiene un conector universal tipo “S” que encaja perfectamente 
 Sensor de peso o fuerza de 5 kg. El Sensor de Peso o Fuerza de 5kg es un sensor de celda de carga, que puede medir hasta poco más de 5 kg de peso, convirtiendo dicha variable de fuerza en una señal eléctrica, gracias a su confiabilidad es ampliamente utilizado en proyectos de medición de peso y básculas. Un sensor de celda de carga se encarga de convertir una fuerza o peso en una señal de voltaje, así que el peso que ejerza el objeto corresponderá a una cantidad de voltaje determinada.
 
 * Módulo Bluetooth
-![ImagenModuloBluetooth](https://www.todomicro.com.ar/487-large_default/modulo-bluetooth-hc-06.jpg)
+![ImagenModuloBluetooth](http://www.maxelectronica.cl/5-large_default/modulo-bluetooth-serial-ttl-esclavo-hc-06.jpg)
 
 Permite añadir a Arduino la función de poder comunicarse sin cables con otros dispositivos mediante la tecnología Bluetooth.
