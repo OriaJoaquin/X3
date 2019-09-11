@@ -31,18 +31,28 @@ El Arduino Uno es una placa de microcontrolador de código abierto basado en el 
 Este módulo está conformado por un LED emisor infrarrojo y un fotodiodo el cual es sensible a la intensidad. El haz infrarrojo emitido al ser reflejado por el obstáculo es detectado por el fotodiodo, la señal del fotodiodo es comparada por el LM393 con la referencia del potenciómetro. La distancia de detección es configura con el potenciómetro. La salida del módulo es digital
 Posee 2 leds, uno de los cuales indica que el módulo está alimentado y el otro enciende cuando el sensor detecta un obstáculo (muy útil para realizar el ajuste).
 
-* Motor Servo Sg90 Torque 1.5 Kg/cm Arduino Pic Servomotor
+* Servomotor DS04-NFC 360° Grados 5.5Kg-cm
 
-![ImagenServo](https://www.robotshop.com/media/catalog/product/cache/image/380x380/9df78eab33525d08d6e5fb8d27136e95/9/g/9g-micro-servo-motor-4-8v.png)
+![ImagenServo01](https://afel.cl/content/uploads/servomotor-ds04-nfc.jpg)
 
-El servo SG90 Tower Pro un servo miniatura de gran calidad y diminutas dimensiones, además es bastante económico. Funciona con la mayoría de tarjetas electrónicas de control con microcontroladores y además con la mayoría de los sistemas de radio control comerciales. Funciona especialmente bien en aeronaves dadas sus características de torque, tamaño y peso.
-El servo SG90 tiene un conector universal tipo “S” que encaja perfectamente en la mayoría de los receptores de radio control incluyendo los Futaba, JR, GWS, Cirrus, Hitec y otros. Los cables en el conector están distribuidos de la siguiente forma: Rojo = Alimentación (+), Cafe = Alimentación (-) o tierra, Orange = Señal PWM.
+Este servo de rotación continua convierte a un Servo estandar RC de pulsos PWM en un Servo de velocidad de rotación continua (360°), con un Torque de 5.5Kg/cm.
+El punto de reposo por defecto es de 1.5ms, pero esto se puede modificar con un pequeño destornillador de punta plana para girar un pequeño ajuste que se encuentra a la mitad del Servo.
+Aplicando un ancho de pulso por encima del punto de reposo, provocara un giro en sentido inverso a las manecillas del reloj y la velocidad aumenta a medida que se aumenta el ancho de pulso. 
+Aplicando un ancho de pulso por debajo del punto de reposo, provocara la rotación en sentido a las manecillas del reloj con una velocidad cada vez mayor a medida que se disminuye la anchura de pulso.
 
-* Sensor de peso
+* Celda de Carga
 
-![ImagenSensorPeso](https://http2.mlstatic.com/celda-carga-sensor-peso-5kg-interfaz-hx711mona-D_NQ_NP_730892-MLA31022349955_062019-F.webp)
+![ImagenSensorPeso](https://http2.mlstatic.com/D_NQ_NP_919137-MLM26991684858_032018-W.jpg)
 
 Sensor de peso o fuerza de 5 kg. El Sensor de Peso o Fuerza de 5kg es un sensor de celda de carga, que puede medir hasta poco más de 5 kg de peso, convirtiendo dicha variable de fuerza en una señal eléctrica, gracias a su confiabilidad es ampliamente utilizado en proyectos de medición de peso y básculas. Un sensor de celda de carga se encarga de convertir una fuerza o peso en una señal de voltaje, así que el peso que ejerza el objeto corresponderá a una cantidad de voltaje determinada.
+
+* Transmisor de Cela de Carga
+
+![ImagenTransmisorCelda](http://www.naylampmechatronics.com/464-large_default/modulo-hx711-transmisor-de-celda-de-carga.jpg)
+
+Este módulo es una interface entre las celdas de carga y el microcontrolador, permitiendo poder leer el peso de manera sencilla. Internamente se encarga de la lectura del puente wheatstone formado por la celda de carga, convirtiendo la lectura analógica a digital con su conversor A/D interno de 24 bits.
+Es muy utilizado en procesos industriales, sistemas de medición automatizada e industria médica.
+Se comunica con el microcontrolador mediante 2 pines (Clock y Data) de forma serial.
 
 * Módulo Bluetooth
 
