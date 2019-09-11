@@ -52,4 +52,8 @@ Permite añadir a Arduino la función de poder comunicarse sin cables con otros 
 
 ### Diagrama físico
 
-![diagramaFisico](https://github.com/OriaJoaquin/X3/blob/master/DiagramaFisico.png)
+![diagramaFisico](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/DiagramaFisico.png)
+
+### Diagrama funcional
+
+![diagramaFuncional](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/DiagramaFisico.png)
