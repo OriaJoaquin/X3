@@ -49,3 +49,7 @@ Sensor de peso o fuerza de 5 kg. El Sensor de Peso o Fuerza de 5kg es un sensor 
 ![ImagenModuloBluetooth](http://www.maxelectronica.cl/5-large_default/modulo-bluetooth-serial-ttl-esclavo-hc-06.jpg)
 
 Permite añadir a Arduino la función de poder comunicarse sin cables con otros dispositivos mediante la tecnología Bluetooth.
+
+### Diagrama físico
+
+![diagramaFisico](https://github.com/OriaJoaquin/X3/blob/master/DiagramaFisico.png)
