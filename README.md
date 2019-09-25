@@ -33,7 +33,7 @@ Este módulo está conformado por un LED emisor infrarrojo y un fotodiodo el cua
 Posee 2 leds, uno de los cuales indica que el módulo está alimentado y el otro enciende cuando el sensor detecta un obstáculo (muy útil para realizar el ajuste).
 
 
-* Servomotor DS04-NFC 360° Grados 5.5Kg-cm
+* Servomotor Mg996 Digital 10Kg-13Kg Torque
 
 ![ImagenServo01](https://afel.cl/content/uploads/servomotor-ds04-nfc.jpg)
 
@@ -47,7 +47,7 @@ Aplicando un ancho de pulso por debajo del punto de reposo, provocara la rotaci�
 
 ![ImagenSensorPeso](http://tdrobotica.co/2463/celda-de-carga-de-1-kg-barra-recta.jpg)
 
-Sensor de peso o fuerza de 5 kg. El Sensor de Peso o Fuerza de 5kg es un sensor de celda de carga, que puede medir hasta poco más de 5 kg de peso, convirtiendo dicha variable de fuerza en una señal eléctrica, gracias a su confiabilidad es ampliamente utilizado en proyectos de medición de peso y básculas. Un sensor de celda de carga se encarga de convertir una fuerza o peso en una señal de voltaje, así que el peso que ejerza el objeto corresponderá a una cantidad de voltaje determinada.
+Sensor de peso o fuerza de 10 kg. El Sensor de Peso o Fuerza de 10kg es un sensor de celda de carga, que puede medir hasta poco más de 10 kg de peso, convirtiendo dicha variable de fuerza en una señal eléctrica, gracias a su confiabilidad es ampliamente utilizado en proyectos de medición de peso y básculas. Un sensor de celda de carga se encarga de convertir una fuerza o peso en una señal de voltaje, así que el peso que ejerza el objeto corresponderá a una cantidad de voltaje determinada.
 
 
 * Transmisor de Cela de Carga
