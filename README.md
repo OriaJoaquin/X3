@@ -68,7 +68,7 @@ Permite añadir a Arduino la función de poder comunicarse sin cables con otros 
   
 * Tira de LEDs blancos.
 
-![ImagenLED](https://images.ledbox.es/subproductos/10501-21/grande/10501-21.jpg)
+![ImagenLED](https://cdn1.efectoled.com/13033/tira-led-220v-ac-smd5050-60-led-m-5-metros.jpg)
 
 Iluminarán el objeto para luego analizar cuanta luz refleja.
 
