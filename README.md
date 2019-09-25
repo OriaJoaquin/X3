@@ -10,11 +10,11 @@ Grupo: X3 <br />
 * [Oria, Joaquín Ariel](https://github.com/OriaJoaquin)<br /> 
 * [Schiro, Andrés](https://github.com/ASchiro7)<br /> 
 
-Proyecto: ReciclaMe<br /> 
+Proyecto: BrillaMe<br /> 
 ---------
 ### Descripción
 
-ReciclaMe es un robot de reciclaje autónomo que explota el poder del aprendizaje profundo para mejorar las capacidades humanas en una tarea que es crucialmente importante, a través del reconocimiento y clasificacion de los distintos tipos de materiales.
+BrillaMe es un robot de clasificación de objetos brillantes y no brillantes. 
 
 ### Materiales
 
@@ -66,11 +66,11 @@ Se comunica con el microcontrolador mediante 2 pines (Clock y Data) de forma ser
 Permite añadir a Arduino la función de poder comunicarse sin cables con otros dispositivos mediante la tecnología Bluetooth.
 
   
-* Led de color
+* Tira de LEDs blancos.
 
-![ImagenLED](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTudfUA01j969DuZr_-SODUrnwSnZLblGCH87OsoMiGVBGeT_ajYA)
+![ImagenLED](https://images.ledbox.es/subproductos/10501-21/grande/10501-21.jpg)
 
-Indicarán el tipo de material que se ingresó en la recicladora.  
+Iluminarán el objeto para luego analizar cuanta luz refleja.
 
 ### Diagrama físico
 
