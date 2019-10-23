@@ -13,6 +13,7 @@ int ldr4 = A3;
 int celda = A4;
 unsigned char dataldr[4][4][64] ={{{0}}};
 boolean flagLed1 = true, flagLed2 = false, flagLed3 = false, flagLed4 = false, termino = false;
+int promedioVarianza = 0, media[4][4] = {{0}}, varianza[4][4] = {{0}};
 int intensidad;
 int previousMillisCell = 0;
 int timeToActionCell = 1000;
@@ -36,7 +37,7 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
-  int i,j;
+  int i,j,k;
   int angle;
   actLed = millis();
   if(actLed - prevLed > timeToActionLed)
@@ -133,27 +134,32 @@ void loop() {
           media[2][k] += dataldr[2][k][i];
           media[3][k] += dataldr[3][k][i];
         }
+        //Dividimos para obtener la media
+        media[0][k] = media[0][k]/64;
+        media[1][k] = media[1][k]/64;
+        media[2][k] = media[2][k]/64;
+        media[3][k] = media[3][k]/64;
       }
 
-      //Dividimos para obtener la media
-      for(i = 0; i < 4 ; i++)
-      {
-        media[0][i] = media[0][i]/64;
-        media[1][i] = media[1][i]/64;
-        media[2][i] = media[2][i]/64;
-        media[3][i] = media[3][i]/64;
-      }
-
+      //Calculamos las 16 varianzas
       for(k = 0; k < 4 ; k++)
       {
         for(i = 0; i < 64; i++)
         {
-          varianza[0][k] += (dataldr[0][k][i] - media[0][i])*(dataldr[0][k][i] - media[0][i]);
-          varianza[1][k] += (dataldr[1][k][i] - media[1][i])*(dataldr[1][k][i] - media[1][i]);
-          varianza[2][k] += (dataldr[2][k][i] - media[2][i])*(dataldr[2][k][i] - media[2][i]);
-          varianza[3][k] += (dataldr[3][k][i] - media[3][i])*(dataldr[3][k][i] - media[3][i]);
+          varianza[0][k] += (dataldr[0][k][i] - media[0][k])*(dataldr[0][k][i] - media[0][k]);
+          varianza[1][k] += (dataldr[1][k][i] - media[1][k])*(dataldr[1][k][i] - media[1][k]);
+          varianza[2][k] += (dataldr[2][k][i] - media[2][k])*(dataldr[2][k][i] - media[2][k]);
+          varianza[3][k] += (dataldr[3][k][i] - media[3][k])*(dataldr[3][k][i] - media[3][k]);
         }
+        varianza[0][k] = varianza [0][k] / 64;
+        varianza[1][k] = varianza [1][k] / 64;
+        varianza[2][k] = varianza [2][k] / 64;
+        varianza[3][k] = varianza [3][k] / 64;
+        promedioVarianza += varianza[0][k] + varianza[1][k] + varianza[2][k] + varianza[3][k];
       }
+      promedioVarianza = promedioVarianza / 16;
+      Serial.print(promedioVarianza);
+      delay(10000);
     }
     /*
     for(i=0 ; i<4 ; i++)  // Hago el promedio
