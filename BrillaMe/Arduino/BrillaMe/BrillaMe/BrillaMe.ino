@@ -1,6 +1,7 @@
 #include <Servo.h>
 
 void readldr(int,int);
+void procesar();
 Servo myservo;
 int led1 = 6;
 int led2 = 9;
@@ -11,9 +12,10 @@ int ldr2 = A1;
 int ldr3 = A2;
 int ldr4 = A3;
 int celda = A4;
-unsigned char dataldr[4][4][64] ={{{0}}};
-boolean flagLed1 = true, flagLed2 = false, flagLed3 = false, flagLed4 = false, termino = false;
-int promedioVarianza = 0, media[4][4] = {{0}}, varianza[4][4] = {{0}};
+const char VALOR_INTENSIDAD = 4;
+const char CANT_MEDIDAS = 64;
+unsigned short dataldr[4][4][CANT_MEDIDAS] ={{{0}}};
+boolean flagLed1, flagLed2, flagLed3, flagLed4, termino;
 int intensidad;
 int previousMillisCell = 0;
 int timeToActionCell = 1000;
@@ -31,6 +33,11 @@ void setup() {
   pinMode(led4, OUTPUT);
   pinMode(3,OUTPUT);
   Serial.begin(9600);
+  flagLed1 = true;
+  flagLed2 = false;
+  flagLed3 = false;
+  flagLed4 = false;
+  termino = false;
   /*myservo.attach(3);
   myservo.write(90);*/
 }
@@ -79,7 +86,7 @@ void loop() {
     {  */
     if(flagLed1)
     {
-      intensidad+=4;
+      intensidad += VALOR_INTENSIDAD;
       readldr(led1,0);
       if(intensidad == 256)
       {
@@ -90,7 +97,7 @@ void loop() {
     }
     if(flagLed2)
     {
-      intensidad+=4;
+      intensidad += VALOR_INTENSIDAD;
       readldr(led2,1);
       if(intensidad == 256)
       {
@@ -101,7 +108,7 @@ void loop() {
     }
     if(flagLed3)
     {
-      intensidad+=4;
+      intensidad += VALOR_INTENSIDAD;
       readldr(led3,2);
       if(intensidad == 256)
       {
@@ -112,72 +119,21 @@ void loop() {
     }
     if(flagLed4)
     {
-      intensidad+=4;
+      intensidad += VALOR_INTENSIDAD;
       readldr(led4,3);
       if(intensidad == 256)
       {
         flagLed4 = false;
         termino = true;
         intensidad = 0;
+        procesar();
       }
     }
 
-    if(termino)
-    {
-      //Sumamos valores para las medias
-      for(k = 0; k < 4 ; k++)
-      {
-        for(i = 0; i < 64; i++)
-        {
-          media[0][k] += dataldr[0][k][i];
-          media[1][k] += dataldr[1][k][i];
-          media[2][k] += dataldr[2][k][i];
-          media[3][k] += dataldr[3][k][i];
-        }
-        //Dividimos para obtener la media
-        media[0][k] = media[0][k]/64;
-        media[1][k] = media[1][k]/64;
-        media[2][k] = media[2][k]/64;
-        media[3][k] = media[3][k]/64;
-      }
-
-      //Calculamos las 16 varianzas
-      for(k = 0; k < 4 ; k++)
-      {
-        for(i = 0; i < 64; i++)
-        {
-          varianza[0][k] += (dataldr[0][k][i] - media[0][k])*(dataldr[0][k][i] - media[0][k]);
-          varianza[1][k] += (dataldr[1][k][i] - media[1][k])*(dataldr[1][k][i] - media[1][k]);
-          varianza[2][k] += (dataldr[2][k][i] - media[2][k])*(dataldr[2][k][i] - media[2][k]);
-          varianza[3][k] += (dataldr[3][k][i] - media[3][k])*(dataldr[3][k][i] - media[3][k]);
-        }
-        varianza[0][k] = varianza [0][k] / 64;
-        varianza[1][k] = varianza [1][k] / 64;
-        varianza[2][k] = varianza [2][k] / 64;
-        varianza[3][k] = varianza [3][k] / 64;
-        promedioVarianza += varianza[0][k] + varianza[1][k] + varianza[2][k] + varianza[3][k];
-      }
-      promedioVarianza = promedioVarianza / 16;
-      Serial.print(promedioVarianza);
-      delay(10000);
-    }
-    /*
-    for(i=0 ; i<4 ; i++)  // Hago el promedio
-      {
-        for(j=0 ; j<4 ; j++)
-        {
-          dataldr[0][i][j]=dataldr[0][i][j]/64;
-          dataldr[1][i][j]=dataldr[1][i][j]/64;
-          dataldr[2][i][j]=dataldr[2][i][j]/64;
-          dataldr[3][i][j]=dataldr[3][i][j]/64;
-        }
-      }
-      */   
-     prevLed = actLed;
+    
+    
+     prevLed= actLed;
   }
-     else
-     {
-     }
   
     
    /*   if(isShiny) // si es brillante...
@@ -216,7 +172,7 @@ void loop() {
         analogWrite(ledPin, i); 
         delay(100); 
      }*/ 
-  }
+}
 
 void readldr(int led, int posled)
 {
@@ -229,4 +185,51 @@ void readldr(int led, int posled)
     {
       analogWrite(led,0);
     }
+}
+
+void procesar(){
+  int k,j,i;
+  short media[4][4] = {{0}}, varianza[4][4] = {{0}};
+  long promedioVarianza = 0;
+  
+  //Sumamos valores para las medias
+  for(k = 0; k < 4 ; k++)
+  {
+    for(i = 0; i < CANT_MEDIDAS; i++)
+    {
+      media[0][k] = media[0][k] + dataldr[0][k][i];
+      media[1][k] = media[1][k] + dataldr[1][k][i];
+      media[2][k] = media[2][k] + dataldr[2][k][i];
+      media[3][k] = media[3][k] + dataldr[3][k][i];
+    }
+
+       
+    //Dividimos para obtener la media
+    media[0][k] = media[0][k] / CANT_MEDIDAS;
+    media[1][k] = media[1][k] / CANT_MEDIDAS;
+    media[2][k] = media[2][k] / CANT_MEDIDAS;
+    media[3][k] = media[3][k] / CANT_MEDIDAS;
+  }
+
+
+  //Calculamos las 16 varianzas
+  for(k = 0; k < 4 ; k++)
+  {
+    for(i = 0; i < CANT_MEDIDAS; i++)
+    {
+      varianza[0][k] = varianza[0][k] + ((dataldr[0][k][i] - media[0][k])*(dataldr[0][k][i] - media[0][k]));
+      varianza[1][k] = varianza[1][k] + ((dataldr[1][k][i] - media[1][k])*(dataldr[1][k][i] - media[1][k]));
+      varianza[2][k] = varianza[2][k] + ((dataldr[2][k][i] - media[2][k])*(dataldr[2][k][i] - media[2][k]));
+      varianza[3][k] = varianza[3][k] + ((dataldr[3][k][i] - media[3][k])*(dataldr[3][k][i] - media[3][k]));
+    }
+    varianza[0][k] = varianza [0][k] / CANT_MEDIDAS;
+    varianza[1][k] = varianza [1][k] / CANT_MEDIDAS;
+    varianza[2][k] = varianza [2][k] / CANT_MEDIDAS;
+    varianza[3][k] = varianza [3][k] / CANT_MEDIDAS;
+    
+    promedioVarianza += (varianza[0][k] + varianza[1][k] + varianza[2][k] + varianza[3][k]);
+  }
+  promedioVarianza = promedioVarianza / 16;
+  
+  Serial.print(promedioVarianza);
 }
