@@ -32,7 +32,9 @@ void setup() {
   pinMode(led3, OUTPUT);
   pinMode(led4, OUTPUT);
   pinMode(3,OUTPUT);
+  
   Serial.begin(9600);
+  
   flagLed1 = true;
   flagLed2 = false;
   flagLed3 = false;
@@ -132,7 +134,7 @@ void loop() {
 
     
     
-     prevLed= actLed;
+     prevLed = actLed;
   }
   
     
@@ -190,7 +192,7 @@ void readldr(int led, int posled)
 void procesar(){
   int k,j,i;
   short media[4][4] = {{0}}, varianza[4][4] = {{0}};
-  long promedioVarianza = 0;
+  int promedioVar = 0;
   
   //Sumamos valores para las medias
   for(k = 0; k < 4 ; k++)
@@ -227,9 +229,8 @@ void procesar(){
     varianza[2][k] = varianza [2][k] / CANT_MEDIDAS;
     varianza[3][k] = varianza [3][k] / CANT_MEDIDAS;
     
-    promedioVarianza += (varianza[0][k] + varianza[1][k] + varianza[2][k] + varianza[3][k]);
+    promedioVar = promedioVar + (varianza[0][k] + varianza[1][k] + varianza[2][k] + varianza[3][k]);
   }
-  promedioVarianza = promedioVarianza / 16;
-  
-  Serial.print(promedioVarianza);
+  //promedioVar = promedioVar / 16;
+  Serial.print(promedioVar); 
 }
