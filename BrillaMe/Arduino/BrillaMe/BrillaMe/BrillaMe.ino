@@ -17,7 +17,10 @@ const short VALOR_INTENSIDAD = 4;
 const short CANT_MEDIDAS = 64;
 
 int aux;
-Average<float> aveLdr1(256);
+Average<float> aveLdr1(64);
+Average<float> aveLdr2(64);
+Average<float> aveLdr3(64);
+Average<float> aveLdr4(64);
 
 
 boolean flagLed1, flagLed2, flagLed3, flagLed4, termino;
@@ -102,11 +105,29 @@ void loop() {
         flagLed2 = true;
         intensidad = 0;
         
-        Serial.print("Media LDR 1:   "); 
+        Serial.println("///////////LED 1:   ");
+        Serial.print("Media LDR1   ");    
         Serial.println(aveLdr1.mean());
-        Serial.print("Desvio LDR 1:   "); 
+        Serial.print("Media LDR2   ");
+        Serial.println(aveLdr2.mean());
+        Serial.print("Media LDR3   ");
+        Serial.println(aveLdr3.mean());
+        Serial.print("Media LDR4   ");
+        Serial.println(aveLdr4.mean());
+        
+        Serial.print("Desvio LDR1   "); 
         Serial.println(aveLdr1.stddev());
+        Serial.print("Desvio LDR2   "); 
+        Serial.println(aveLdr2.stddev());
+        Serial.print("Desvio LDR3   "); 
+        Serial.println(aveLdr3.stddev());
+        Serial.print("Desvio LDR4   "); 
+        Serial.println(aveLdr4.stddev());
+        
         aveLdr1.clear();
+        aveLdr2.clear();
+        aveLdr3.clear();
+        aveLdr4.clear();
   
       }
     }
@@ -119,13 +140,32 @@ void loop() {
         flagLed2 = false;
         flagLed3 = true;
         intensidad = 0;
-        
-        Serial.print("Media LDR 2:   "); 
+
+        Serial.println("");
+        Serial.println("");
+        Serial.println("///////////LED 2:   ");
+        Serial.print("Media LDR1   ");    
         Serial.println(aveLdr1.mean());
-        Serial.print("Desvio LDR 2:   "); 
-        Serial.println(aveLdr1.stddev());
-        aveLdr1.clear();
+        Serial.print("Media LDR2   ");
+        Serial.println(aveLdr2.mean());
+        Serial.print("Media LDR3   ");
+        Serial.println(aveLdr3.mean());
+        Serial.print("Media LDR4   ");
+        Serial.println(aveLdr4.mean());
         
+        Serial.print("Desvio LDR1   "); 
+        Serial.println(aveLdr1.stddev());
+        Serial.print("Desvio LDR2   "); 
+        Serial.println(aveLdr2.stddev());
+        Serial.print("Desvio LDR3   "); 
+        Serial.println(aveLdr3.stddev());
+        Serial.print("Desvio LDR4   "); 
+        Serial.println(aveLdr4.stddev());
+        
+        aveLdr1.clear();
+        aveLdr2.clear();
+        aveLdr3.clear();
+        aveLdr4.clear();        
       }
     }
     if(flagLed3)
@@ -138,11 +178,31 @@ void loop() {
         flagLed4 = true;
         intensidad = 0;
 
-        Serial.print("Media LDR 3:   "); 
+        Serial.println("");
+        Serial.println("");
+        Serial.println("///////////LED 3:   ");
+        Serial.print("Media LDR1   ");    
         Serial.println(aveLdr1.mean());
-        Serial.print("Desvio LDR 3:   "); 
+        Serial.print("Media LDR2   ");
+        Serial.println(aveLdr2.mean());
+        Serial.print("Media LDR3   ");
+        Serial.println(aveLdr3.mean());
+        Serial.print("Media LDR4   ");
+        Serial.println(aveLdr4.mean());
+        
+        Serial.print("Desvio LDR1   "); 
         Serial.println(aveLdr1.stddev());
+        Serial.print("Desvio LDR2   "); 
+        Serial.println(aveLdr2.stddev());
+        Serial.print("Desvio LDR3   "); 
+        Serial.println(aveLdr3.stddev());
+        Serial.print("Desvio LDR4   "); 
+        Serial.println(aveLdr4.stddev());
+        
         aveLdr1.clear();
+        aveLdr2.clear();
+        aveLdr3.clear();
+        aveLdr4.clear();
       }
     }
     if(flagLed4)
@@ -156,11 +216,31 @@ void loop() {
         intensidad = 0;
         procesar();
 
-        Serial.print("Media LDR 4:   "); 
+        Serial.println("");
+        Serial.println("");
+        Serial.println("///////////LED 4:   ");
+        Serial.print("Media LDR1   ");    
         Serial.println(aveLdr1.mean());
-        Serial.print("Desvio LDR 4:   "); 
+        Serial.print("Media LDR2   ");
+        Serial.println(aveLdr2.mean());
+        Serial.print("Media LDR3   ");
+        Serial.println(aveLdr3.mean());
+        Serial.print("Media LDR4   ");
+        Serial.println(aveLdr4.mean());
+        
+        Serial.print("Desvio LDR1   "); 
         Serial.println(aveLdr1.stddev());
+        Serial.print("Desvio LDR2   "); 
+        Serial.println(aveLdr2.stddev());
+        Serial.print("Desvio LDR3   "); 
+        Serial.println(aveLdr3.stddev());
+        Serial.print("Desvio LDR4   "); 
+        Serial.println(aveLdr4.stddev());
+        
         aveLdr1.clear();
+        aveLdr2.clear();
+        aveLdr3.clear();
+        aveLdr4.clear();
       }
     }
 
@@ -216,6 +296,10 @@ void readldr(int led, int posled)
 
 
     aveLdr1.push(analogRead(ldr1));
+    aveLdr2.push(analogRead(ldr2));
+    aveLdr3.push(analogRead(ldr3));
+    aveLdr4.push(analogRead(ldr4));
+    
    // aveLdr2.push(analogRead(ldr2));
 
     /*
