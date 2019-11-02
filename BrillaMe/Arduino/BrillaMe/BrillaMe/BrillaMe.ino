@@ -1,4 +1,5 @@
 #include <Servo.h>
+#include <Average.h>
 
 void readldr(int,int);
 void procesar();
@@ -12,12 +13,12 @@ int ldr2 = A1;
 int ldr3 = A2;
 int ldr4 = A3;
 int celda = A4;
-const char VALOR_INTENSIDAD = 4;
-const char CANT_MEDIDAS = 64;
-unsigned short dataldr1[4][CANT_MEDIDAS] ={{0}};
-unsigned short dataldr2[4][CANT_MEDIDAS] ={{0}};
-unsigned short dataldr3[4][CANT_MEDIDAS] ={{0}};
-unsigned short dataldr4[4][CANT_MEDIDAS] ={{0}};
+const short VALOR_INTENSIDAD = 4;
+const short CANT_MEDIDAS = 64;
+
+int aux;
+Average<float> aveLdr1(256);
+
 
 boolean flagLed1, flagLed2, flagLed3, flagLed4, termino;
 int intensidad;
@@ -28,6 +29,7 @@ int prevCell, actCell, prevLed = 0 , actLed = 0;
 int minTolerance;
 int countCell;
 boolean isShiny = false;
+
 // the setup function runs once when you press + reset or power the board
 void setup() {
   unsigned char currentMillis = millis();
@@ -99,6 +101,13 @@ void loop() {
         flagLed1 = false;
         flagLed2 = true;
         intensidad = 0;
+        
+        Serial.print("Media LDR 1:   "); 
+        Serial.println(aveLdr1.mean());
+        Serial.print("Desvio LDR 1:   "); 
+        Serial.println(aveLdr1.stddev());
+        aveLdr1.clear();
+  
       }
     }
     if(flagLed2)
@@ -110,6 +119,13 @@ void loop() {
         flagLed2 = false;
         flagLed3 = true;
         intensidad = 0;
+        
+        Serial.print("Media LDR 2:   "); 
+        Serial.println(aveLdr1.mean());
+        Serial.print("Desvio LDR 2:   "); 
+        Serial.println(aveLdr1.stddev());
+        aveLdr1.clear();
+        
       }
     }
     if(flagLed3)
@@ -121,6 +137,12 @@ void loop() {
         flagLed3 = false;
         flagLed4 = true;
         intensidad = 0;
+
+        Serial.print("Media LDR 3:   "); 
+        Serial.println(aveLdr1.mean());
+        Serial.print("Desvio LDR 3:   "); 
+        Serial.println(aveLdr1.stddev());
+        aveLdr1.clear();
       }
     }
     if(flagLed4)
@@ -133,6 +155,12 @@ void loop() {
         termino = true;
         intensidad = 0;
         procesar();
+
+        Serial.print("Media LDR 4:   "); 
+        Serial.println(aveLdr1.mean());
+        Serial.print("Desvio LDR 4:   "); 
+        Serial.println(aveLdr1.stddev());
+        aveLdr1.clear();
       }
     }
 
@@ -182,14 +210,13 @@ void loop() {
 
 void readldr(int led, int posled)
 {    
-    int indice;
+
     analogWrite(led,intensidad);
 
-    indice = (intensidad / 4) - 1;
-    dataldr1[posled][indice] = analogRead(ldr1); 
-    dataldr2[posled][indice] = analogRead(ldr2); 
-    dataldr3[posled][indice] = analogRead(ldr3); 
-    dataldr4[posled][indice] = analogRead(ldr4); 
+
+
+    aveLdr1.push(analogRead(ldr1));
+   // aveLdr2.push(analogRead(ldr2));
 
     /*
     Serial.print("LED:  ");
@@ -207,71 +234,9 @@ void readldr(int led, int posled)
 }
 
 void procesar(){
-  int k,j,i;
-  unsigned short media1[4] = {0};
-  unsigned short media2[4] = {0};
-  unsigned short media3[4] = {0};
-  unsigned short media4[4] = {0};
-  
-  unsigned short varianza1[4] = {0};
-  unsigned short varianza2[4] = {0};
-  unsigned short varianza3[4] = {0};
-  unsigned short varianza4[4] = {0};
-
   
 
-  int promedioVar = 0;
-  
-  //Sumamos valores para las medias
-  for(k = 0; k < 4 ; k++)
-  {
-    
-    for(i = 0; i < CANT_MEDIDAS; i++)
-    {
-      media1[k] = media1[k] + dataldr1[k][i];
-      media2[k] = media2[k] + dataldr2[k][i];
-      media3[k] = media3[k] + dataldr3[k][i];
-      media4[k] = media4[k] + dataldr4[k][i];
-/*
-      Serial.print("LED:  ");
-    Serial.print(k);
-    Serial.print("  Indice  ");
-    Serial.print(i);
-    Serial.print("  Valor ");
-    Serial.println(dataldr1[k][i]);
-*/
-
-    }
-    //Serial.println(media1[k]);
-       
-    //Dividimos para obtener la media
-    media1[k] = media1[k] / CANT_MEDIDAS;
-    media2[k] = media2[k] / CANT_MEDIDAS;
-    media3[k] = media3[k] / CANT_MEDIDAS;
-    media4[k] = media4[k] / CANT_MEDIDAS;
-
-    Serial.println(media1[k]);
-  }
-
-//Serial.println(media1[0]);
-  //Calculamos las 16 varianzas
-  for(k = 0; k < 4 ; k++)
-  {
-    for(i = 0; i < CANT_MEDIDAS; i++)
-    {
-      varianza1[k] = varianza1[k] + ((dataldr1[k][i] - media1[k])*(dataldr1[k][i] - media1[k]));
-      varianza2[k] = varianza2[k] + ((dataldr2[k][i] - media2[k])*(dataldr2[k][i] - media2[k]));
-      varianza3[k] = varianza3[k] + ((dataldr3[k][i] - media3[k])*(dataldr3[k][i] - media3[k]));
-      varianza4[k] = varianza4[k] + ((dataldr4[k][i] - media4[k])*(dataldr4[k][i] - media4[k]));
-    }
-    varianza1[k] = varianza1[k] / CANT_MEDIDAS;
-    varianza2[k] = varianza2[k] / CANT_MEDIDAS;
-    varianza3[k] = varianza3[k] / CANT_MEDIDAS;
-    varianza4[k] = varianza4[k] / CANT_MEDIDAS;
-    
-    promedioVar = promedioVar + (varianza1[k] + varianza2[k] + varianza3[k] + varianza4[k]);
-  }
-  promedioVar = promedioVar / 16;
-  
-  //Serial.println(promedioVar); 
+  //Serial.print("Media ldr 2:   "); 
+ // Serial.println(aveLdr2.mean());
+ 
 }
