@@ -25,7 +25,7 @@ Average<float> aveLdr1(64);
 Average<float> aveLdr2(64);
 Average<float> aveLdr3(64);
 Average<float> aveLdr4(64);
-Average<float> aveLed(4);
+Average<float> aveLed(16);
 
 SoftwareSerial BT1(4,5); // RX | TX
 
@@ -150,9 +150,7 @@ void loop() {
           aveLed.push(aveLdr2.stddev());
           aveLed.push(aveLdr3.stddev());
           aveLed.push(aveLdr4.stddev());
-          Serial.print("Media de desvio: ");
-          Serial.println(aveLed.mean());
-          aveLed.clear();
+         
           aveLdr1.clear();
           aveLdr2.clear();
           aveLdr3.clear();
@@ -196,13 +194,12 @@ void loop() {
           aveLed.push(aveLdr2.stddev());
           aveLed.push(aveLdr3.stddev());
           aveLed.push(aveLdr4.stddev());
-          Serial.print("Media de desvio: ");
-          Serial.println(aveLed.mean());
+
           aveLdr1.clear();
           aveLdr2.clear();
           aveLdr3.clear();
           aveLdr4.clear();        
-          aveLed.clear();
+   
         }
       }
       if(flagLed3)
@@ -240,9 +237,7 @@ void loop() {
           aveLed.push(aveLdr2.stddev());
           aveLed.push(aveLdr3.stddev());
           aveLed.push(aveLdr4.stddev());
-          Serial.print("Media de desvio: ");
-          Serial.println(aveLed.mean());
-          aveLed.clear();
+          
           aveLdr1.clear();
           aveLdr2.clear();
           aveLdr3.clear();
@@ -284,8 +279,14 @@ void loop() {
           aveLed.push(aveLdr2.stddev());
           aveLed.push(aveLdr3.stddev());
           aveLed.push(aveLdr4.stddev());
+          Serial.println("------ TOTAL ------ ");
           Serial.print("Media de desvio: ");
           Serial.println(aveLed.mean());
+          if(aveLed.mean() > 55)
+            isShiny = true;
+          else
+            isShiny = false;
+              
           aveLed.clear();
           aveLdr1.clear();
           aveLdr2.clear();
@@ -297,66 +298,31 @@ void loop() {
 
     previousMillisLed = currentMillisLed;
   }
-
-
-  /*   if(isShiny) // si es brillante...
+  
+  if(termino)
+  {
+    if(isShiny) // si es brillante...
      {
-
+        Serial.println("ES BRILLANTEEEE");
      }
      else        // si no es brillante...
      {
-
+        Serial.println("OSCURITO");
      }
      isCharged = false;
-    }
-    /* if(currentMillis - previousMillis >= timeToAction)
-  *//* {
-   analogWrite(led1,255);
-   analogWrite(led2,255);
-   analogWrite(led3,255);
-   analogWrite(led4,255);
-  }*/
-  /*
-    Serial.println("ldr1");
-    Serial.println(analogRead(ldr1));
-    Serial.println("ldr2");
-    Serial.println(analogRead(ldr2));
-    Serial.println("ldr3");
-    Serial.println(analogRead(ldr3));
-    Serial.println("ldr4");
-    Serial.println(analogRead(ldr4));
-
-    delay(10000);
-    /*for (int i=0; i<=255; i++){
-      analogWrite(ledPin, i);
-      delay(100);
-    }
-    for (int i=255; i>=0; i--) {
-      analogWrite(ledPin, i);
-      delay(100);
-    }*/
+     flagLed1 = true;
+     termino = false;
+  }
 }
 
 void readldr(int led, int posled)
 {
-
   analogWrite(led, intensidad);
-
-
 
   aveLdr1.push(analogRead(ldr1));
   aveLdr2.push(analogRead(ldr2));
   aveLdr3.push(analogRead(ldr3));
   aveLdr4.push(analogRead(ldr4));
-
-  /*
-    Serial.print("LED:  ");
-    Serial.print(posled);
-    Serial.print("  Indice  ");
-    Serial.print(indice);
-    Serial.print("  Valor ");
-    Serial.println(dataldr1[posled][indice]);
-  */
 
   if (intensidad >= 256) // APAGAMOS EL LED
   {
