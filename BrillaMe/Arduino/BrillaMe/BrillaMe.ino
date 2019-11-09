@@ -1,7 +1,7 @@
 #include <Servo.h>
 #include <Average.h>
 #include "HX711.h"
-
+#include <SoftwareSerial.h>
 
 int pinData = A4;
 int pinClk = A5;
@@ -25,7 +25,9 @@ Average<float> aveLdr1(64);
 Average<float> aveLdr2(64);
 Average<float> aveLdr3(64);
 Average<float> aveLdr4(64);
+Average<float> aveLed(4);
 
+SoftwareSerial BT1(4,5); // RX | TX
 
 boolean flagLed1, flagLed2, flagLed3, flagLed4, termino;
 int intensidad;
@@ -48,6 +50,7 @@ void setup() {
   pinMode(3, OUTPUT);
 
   Serial.begin(9600);
+  BT1.begin(9600);
 
   flagLed1 = true;
   flagLed2 = false;
@@ -71,7 +74,7 @@ void loop() {
   currentMillisLed = millis();
   currentMillisCell = millis();
 
-  if (!isCharged && currentMillisCell - previousMillisCell > timeToActionCell)
+ /* if (!isCharged && currentMillisCell - previousMillisCell > timeToActionCell)
   {
     actCell = bascula.get_units() * (-1);
     Serial.print("Leyendo: ");
@@ -93,7 +96,7 @@ void loop() {
       prevCell = actCell;
     }
     previousMillisCell = currentMillisCell;
-  }
+  }*/
 
   if (currentMillisLed - previousMillisLed > timeToActionLed)
   {
@@ -112,7 +115,7 @@ void loop() {
     */
 
 
-    if (isCharged)
+    if (true)
     {
       if (flagLed1)
       {
@@ -142,12 +145,20 @@ void loop() {
           Serial.println(aveLdr3.stddev());
           Serial.print("Desvio LDR4   "); 
           Serial.println(aveLdr4.stddev());
-          
+
+          aveLed.push(aveLdr1.stddev());
+          aveLed.push(aveLdr2.stddev());
+          aveLed.push(aveLdr3.stddev());
+          aveLed.push(aveLdr4.stddev());
+          Serial.print("Media de desvio: ");
+          Serial.println(aveLed.mean());
+          aveLed.clear();
           aveLdr1.clear();
           aveLdr2.clear();
           aveLdr3.clear();
           aveLdr4.clear();
-    
+          
+          
         }
       }
       if(flagLed2)
@@ -180,11 +191,18 @@ void loop() {
           Serial.println(aveLdr3.stddev());
           Serial.print("Desvio LDR4   "); 
           Serial.println(aveLdr4.stddev());
-          
+
+          aveLed.push(aveLdr1.stddev());
+          aveLed.push(aveLdr2.stddev());
+          aveLed.push(aveLdr3.stddev());
+          aveLed.push(aveLdr4.stddev());
+          Serial.print("Media de desvio: ");
+          Serial.println(aveLed.mean());
           aveLdr1.clear();
           aveLdr2.clear();
           aveLdr3.clear();
           aveLdr4.clear();        
+          aveLed.clear();
         }
       }
       if(flagLed3)
@@ -217,7 +235,14 @@ void loop() {
           Serial.println(aveLdr3.stddev());
           Serial.print("Desvio LDR4   "); 
           Serial.println(aveLdr4.stddev());
-          
+
+          aveLed.push(aveLdr1.stddev());
+          aveLed.push(aveLdr2.stddev());
+          aveLed.push(aveLdr3.stddev());
+          aveLed.push(aveLdr4.stddev());
+          Serial.print("Media de desvio: ");
+          Serial.println(aveLed.mean());
+          aveLed.clear();
           aveLdr1.clear();
           aveLdr2.clear();
           aveLdr3.clear();
@@ -233,7 +258,6 @@ void loop() {
           flagLed4 = false;
           termino = true;
           intensidad = 0;
-          procesar();
   
           Serial.println("");
           Serial.println("");
@@ -255,7 +279,14 @@ void loop() {
           Serial.println(aveLdr3.stddev());
           Serial.print("Desvio LDR4   "); 
           Serial.println(aveLdr4.stddev());
-          
+
+          aveLed.push(aveLdr1.stddev());
+          aveLed.push(aveLdr2.stddev());
+          aveLed.push(aveLdr3.stddev());
+          aveLed.push(aveLdr4.stddev());
+          Serial.print("Media de desvio: ");
+          Serial.println(aveLed.mean());
+          aveLed.clear();
           aveLdr1.clear();
           aveLdr2.clear();
           aveLdr3.clear();
@@ -331,12 +362,4 @@ void readldr(int led, int posled)
   {
     analogWrite(led, 0);
   }
-}
-
-void procesar() {
-
-
-  //Serial.print("Media ldr 2:   ");
-  // Serial.println(aveLdr2.mean());
-
 }
