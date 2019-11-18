@@ -8,6 +8,8 @@ void setup()
   pinMode(LED2, OUTPUT);
   pinMode(LED3, OUTPUT);
   pinMode(LED4, OUTPUT);
+  pinMode(SHINY_BASK, INPUT);
+  pinMode(NONSHINY_BASK, INPUT);
 
   Serial.begin(9600);
   BT1.begin(9600);
@@ -19,7 +21,6 @@ void setup()
   finished = false;
   myservo.attach(SERVO);
   myservo.write(MIDDLE_ANGLE);
-
   bascule.begin(pinData, pinClk);
   bascule.set_scale(SCALE);
   bascule.tare();
@@ -42,7 +43,7 @@ void loop()
   if(Serial.available())
     BT1.write(Serial.read());
 
-  if(true)
+  if(BTBusy)
   {
     switch(BTdata)
     {
@@ -58,91 +59,102 @@ void loop()
       
       case EXIT: 
       {
-        if(!isCharged)
+        if(!isCellCharged)
         {
           
         }
       }
       
-      case true:
+      case BEGIN_RECOGNIZING:
       {
-          /* currentMillisCell = millis();
-        if (!isCharged && currentMillisCell - previousMillisCell > timeToActionCell)
+        if(!isCellCharged)
         {
-          actCell = bascule.get_units() * (-1);
-          Serial.print("Leyendo: ");
-          Serial.print(actCell, 3);
-          Serial.print("  kgs");
-          Serial.println();
-          if(actCell < (prevCell + MIN_DEVIATION) && actCell > (prevCell - MIN_DEVIATION))
+          currentMillisCell = millis();
+          if(currentMillisCell - previousMillisCell > timeToActionCell)
           {
-            if (actCell > minTolerance)
-            countCell++;
-            if (countCell == OBJECT_DETECTED)
+            detect_weight();
+            previousMillisCell = currentMillisCell;
+          }     
+        }
+        else
+        {
+          if(!finished)
+          {
+            currentMillisLed = millis();
+            if (currentMillisLed - previousMillisLed > timeToActionLed)
             {
-              isCharged = true;
-              BT1.write(actCell);
+              lights_on();
+              previousMillisLed = currentMillisLed;
             }
           }
-          else
-          {
-            countCell = 0;
-            prevCell = actCell;
-          }
-          previousMillisCell = currentMillisCell;
         }
-        */
-        if (true)
+
+        if(finished)
         {
-          currentMillisLed = millis();
-          if (!finished && currentMillisLed - previousMillisLed > timeToActionLed)
+          currentMillisServo = millis();
+          if(currentMillisServo - previousMillisServo > timeToActionServo)
           {
-            lights_on();
-            previousMillisLed = currentMillisLed;
+            move_servo();
+            previousMillisServo = currentMillisServo;
           }
         }
+        if(detectIR)
+        {
+          currentMillisInfrared = millis();
+          if(currentMillisInfrared - previousMillisInfrared > timeToActionInfrared)
+          {
+            check_infrared();
+            previousMillisInfrared = currentMillisInfrared;
+          }
+        }
+      }
+      
+      case MOVE_LEFT:
+      {
         currentMillisServo = millis();
-        if(finished && currentMillisServo - previousMillisServo > timeToActionServo)
+        if(currentMillisServo - previousMillisServo > timeToActionServo)
         {
-          if(isShiny)
+          angle++;
+          Serial.println(angle);
+          if(angle < TOP_ANGLE)                                  
           {
-            angle++;
-            if(angle < TOP_ANGLE)                                  
-            {
-               myservo.write(angle);
-            }
-            else
-            {
-              myservo.write(MIDDLE_ANGLE);
-              isCharged = false;
-              BTBusy = false;
-              flagLed1 = true;
-              finished = false;                      
-              Serial.println("ES BRILLANTEEEE");
-              BT1.write(isShiny);
-            }
-             
+             myservo.write(angle);
           }
           else
           {
-             angle--;
-             if(angle > BOTTOM_ANGLE) 
-             {                                
-               myservo.write(angle);                        
-             }
-             else
-             {
-              myservo.write(MIDDLE_ANGLE);
-              isCharged = false;
-              BTBusy = false;
-              flagLed1 = true;
-              finished = false; 
-              Serial.println("OSCURITO");
-              BT1.write(isShiny);
-             }
+            myservo.write(MIDDLE_ANGLE);
+            BTdata = false;
           }
-          previousMillisServo = currentMillisServo;
         }
+      }
+      
+      case MOVE_RIGHT:
+      {
+        currentMillisServo = millis();
+        if(currentMillisServo - previousMillisServo > timeToActionServo)
+        {
+          angle--;
+          Serial.println(angle);
+          if(angle > BOTTOM_ANGLE)                                  
+          {
+             myservo.write(angle);
+          }
+          else
+          {
+            myservo.write(MIDDLE_ANGLE);
+            BTdata = false;
+          }
+        }
+      }
+      
+      case EMPTY_SHINY:
+      {
+        ShinyBaskFull = false;
+      }
+      
+      case EMPTY_NONSHINY:
+      {
+        NonShinyBaskFull = false;
       }
     }   
   }
@@ -262,4 +274,84 @@ void lights_on()
     aveLdr3.clear();
     aveLdr4.clear();
   }
+}
+
+void move_servo()
+{
+  if(isShiny)
+  {
+    angle++;
+    Serial.println(angle);
+    if(angle < TOP_ANGLE)                                  
+    {
+       myservo.write(angle);
+    }
+    else
+    {
+      myservo.write(MIDDLE_ANGLE);
+      detectIR = true;
+    }   
+  }
+  else
+  {
+     angle--;
+     if(angle > BOTTOM_ANGLE) 
+     {                                
+       myservo.write(angle);                        
+     }
+     else
+     {
+      myservo.write(MIDDLE_ANGLE);
+      detectIR = true;
+     }
+  }
+}
+
+void detect_weight()
+{
+  actCell = bascule.get_units() * (-1);
+  Serial.print("Leyendo: ");
+  Serial.print(actCell, 3);
+  Serial.print("  kgs");
+  Serial.println();
+  if(actCell < (prevCell + MIN_DEVIATION) && actCell > (prevCell - MIN_DEVIATION))
+  {
+    if (actCell > minTolerance)
+    countCell++;
+    if (countCell == OBJECT_DETECTED)
+    {
+      isCellCharged = true;
+      BT1.write(actCell);
+    }
+  }
+  else
+  {
+    countCell = 0;
+    prevCell = actCell;
+  }
+}
+
+void check_infrared()
+{
+  detectIR = false;
+  isCellCharged = false;
+  BTBusy = false;
+  flagLed1 = true;
+  finished = false;                      
+  BT1.write(isShiny);
+  if(isShiny)
+  {
+    if(digitalRead(SHINY_BASK) == HIGH)
+      BT1.write("true");
+    else
+      BT1.write("false");    
+  }
+  else
+  {
+    if(digitalRead(NONSHINY_BASK) == HIGH)
+      BT1.write("true");
+    else
+      BT1.write("false");
+  }
+  BT1.write(actCell); 
 }
