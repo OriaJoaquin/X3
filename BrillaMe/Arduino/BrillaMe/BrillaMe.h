@@ -7,11 +7,15 @@
 #include "HX711.h"
 #include <SoftwareSerial.h>
 
+
 #define EXIT 0 
 #define BEGIN_RECOGNIZING 1
 #define DANCE_MODE 2
 #define MOVE_LEFT 3
 #define MOVE_RIGHT 4
+#define EMPTY_SHINY 5
+#define EMPTY_NONSHINY 6
+
 #define SCALE 211000
 #define MIN_DEVIATION 0.01
 #define OBJECT_DETECTED 100
@@ -29,10 +33,13 @@
 #define LDR3 A2 
 #define LDR4 A3
 #define SERVO 10
+#define SHINY_BASK 8
+#define NONSHINY_BASK 9
 
 void dance();
 void readldr(int);
 void lights_on();
+void move_servo();
 
 int pinData = A4;
 int pinClk = A5;
@@ -56,14 +63,17 @@ int intensity;
 int previousMillisCell = 0, currentMillisCell = 0;
 int previousMillisLed = 0 , currentMillisLed = 0;
 int previousMillisServo = 0, currentMillisServo = 0;
+int previousMillisInfrared = 0, currentMillisInfrared= 0;
 int timeToActionServo = 5;
 int timeToActionCell = 50;
 int timeToActionLed = 40;
 int timeToActionDance = 250;
+int timeToActionInfrared = 3000;
 float prevCell = 0, actCell = 0;
 const float minTolerance = 0.02;
 int countCell;
-boolean isShiny = false, isCharged = false, BTBusy = false;
+boolean isShiny = false, isCellCharged = false, BTBusy = false;
+boolean ShinyBaskFull = false, NonShinyBaskFull = false, detectIR = false;
 int BTdata; 
 
  
