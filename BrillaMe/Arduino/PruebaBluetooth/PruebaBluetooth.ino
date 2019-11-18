@@ -1,17 +1,63 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial BT1(4,5); // RX | TX
-int pinKEY = 3;
+//set ports
+// state pin
+#define rx 19 // => HC05: tx
+#define tx 18 // => HC05: rx
+// GND pin
+// 5V pin
+#define cmd 43 //EN pin
+
+SoftwareSerial BTserial(rx, tx); // RX | TX of Arduino
+
+char reading = ' ';
+
+// BTconnected will = false when not connected and true when connected
+boolean BTconnected = false;
+
+// The setup() function runs once each time the micro-controller starts
 void setup()
-{ 
-  Serial.begin(9600);
-  BT1.begin(9600); 
+{
+   // start serial communication with the serial monitor on the host computer
+
+   // set input through EN pin
+   pinMode(cmd, OUTPUT);
+   digitalWrite(cmd, HIGH);
+
+   //Serial turns on in 1 second
+   delay(1000);
+
+   // wait until the HC-05 has made a connection
+   while (!BTconnected)
+   {
+      if (digitalRead(cmd) == HIGH) { BTconnected = true; };
+   }
+
+   Serial.begin(9600);
+   Serial.println("HC-05 is now connected");
+   Serial.println("");
+
+   // Start serial communication with the bluetooth module
+   // HC-05 default serial speed for communication mode is 9600 but can be different
+   Serial.println("Enter AT commands:");
+
+   BTserial.begin(9600);  // HC-05 default speed in AT command mode
 }
 
+
 void loop()
-{  
-  if (BT1.available())
-        Serial.write(BT1.read());
-  if (Serial.available())
-        BT1.write(Serial.read());
+{
+   // Keep reading from HC-05 and send to Arduino Serial Monitor
+   if (BTserial.available())
+   {
+      reading = BTserial.read();
+      Serial.write(reading);
+   }
+
+   // Keep reading from Arduino Serial Monitor and send to HC-05
+   if (Serial.available())
+   {
+      reading = Serial.read();
+      BTserial.write(reading);
+   }
 }
