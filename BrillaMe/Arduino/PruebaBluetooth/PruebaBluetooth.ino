@@ -1,63 +1,35 @@
-#include <SoftwareSerial.h>
-
-//set ports
-// state pin
-#define rx 19 // => HC05: tx
-#define tx 18 // => HC05: rx
-// GND pin
-// 5V pin
-#define cmd 43 //EN pin
-
-SoftwareSerial BTserial(rx, tx); // RX | TX of Arduino
-
-char reading = ' ';
-
-// BTconnected will = false when not connected and true when connected
-boolean BTconnected = false;
-
-// The setup() function runs once each time the micro-controller starts
+char serialByte = '0';
+const byte LEDPIN = 12;
 void setup()
 {
-   // start serial communication with the serial monitor on the host computer
-
-   // set input through EN pin
-   pinMode(cmd, OUTPUT);
-   digitalWrite(cmd, HIGH);
-
-   //Serial turns on in 1 second
-   delay(1000);
-
-   // wait until the HC-05 has made a connection
-   while (!BTconnected)
-   {
-      if (digitalRead(cmd) == HIGH) { BTconnected = true; };
-   }
-
-   Serial.begin(9600);
-   Serial.println("HC-05 is now connected");
-   Serial.println("");
-
-   // Start serial communication with the bluetooth module
-   // HC-05 default serial speed for communication mode is 9600 but can be different
-   Serial.println("Enter AT commands:");
-
-   BTserial.begin(9600);  // HC-05 default speed in AT command mode
+pinMode(LEDPIN, OUTPUT);
+// communication with the host computer
+Serial.begin(9600);
+Serial.println("Do not power the BT module");
+Serial.println(" ");
+Serial.println("On the BT module, press the button switch (keep pressed, and at the same time power the BT module");
+Serial.println("The LED on the BT module should now flash on/off every 2 seconds");
+Serial.println("Can now release the button switch on the BT module");
+Serial.println(" ");
+Serial.println("After entering AT mode, type 1 and hit send");
+Serial.println(" ");
+// wait for the user to type "1" in the serial monitor
+//while (serialByte !='1')
+{
+if ( Serial1.available() ) { serialByte = Serial1.read(); }
 }
-
-
+// communication with the BT module on serial1
+Serial1.begin(9600);
+// LED to show we have started the serial channels
+digitalWrite(LEDPIN, HIGH);
+Serial.println(" ");
+Serial.println("AT mode.");
+Serial.println("Remember to to set Both NL & CR in the serial monitor.");
+Serial.println("The HC-05 accepts commands in both upper case and lower case");
+Serial.println(" ");
+}
 void loop()
 {
-   // Keep reading from HC-05 and send to Arduino Serial Monitor
-   if (BTserial.available())
-   {
-      reading = BTserial.read();
-      Serial.write(reading);
-   }
-
-   // Keep reading from Arduino Serial Monitor and send to HC-05
-   if (Serial.available())
-   {
-      reading = Serial.read();
-      BTserial.write(reading);
-   }
-}
+// listen for communication from the BT module and then write it to the serial monitor
+if ( Serial1.available() ) { Serial.write( Serial1.read() ); }
+if ( Serial.available() ) { Serial1.write( Serial.read() ); }}

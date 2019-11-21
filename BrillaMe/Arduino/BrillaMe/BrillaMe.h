@@ -5,27 +5,26 @@
 #include <Servo.h>
 #include <Average.h>
 #include "HX711.h"
-#include <SoftwareSerial.h>
 
 
 #define EXIT 0 
-#define BEGIN_RECOGNIZING 1
-#define DANCE_MODE 2
-#define MOVE_LEFT 3
-#define MOVE_RIGHT 4
-#define EMPTY_SHINY 5
-#define EMPTY_NONSHINY 6
+const char BEGIN_RECOGNIZING = '1';
+const char DANCE_MODE = '2';
+const char MOVE_LEFT = '3';
+const char MOVE_RIGHT = '4';
+const char EMPTY_SHINY = '5';
+const char EMPTY_NONSHINY = '6';
 
 #define SCALE 211000
 #define MIN_DEVIATION 0.01
 #define OBJECT_DETECTED 100
-#define MIDDLE_ANGLE 57
+#define MIDDLE_ANGLE 117
 #define BOTTOM_ANGLE 30
 #define TOP_ANGLE 90
 #define MAX_INTENSITY 255
 #define MIN_SHINY_DEVIATION 70
 #define LED1 6 
-#define LED2 3 
+#define LED2 4 
 #define LED3 7 
 #define LED4 11
 #define LDR1 A0 
@@ -56,7 +55,6 @@ Average<float> aveLdr3(64);
 Average<float> aveLdr4(64);
 Average<float> aveLed(16);
 
-SoftwareSerial BT1(4,5); // RX | TX
 
 boolean flagLed1, flagLed2, flagLed3, flagLed4, finished;
 int intensity;
@@ -74,7 +72,7 @@ const float minTolerance = 0.02;
 int countCell;
 boolean isShiny = false, isCellCharged = false, BTBusy = false;
 boolean ShinyBaskFull = false, NonShinyBaskFull = false, detectIR = false;
-int BTdata; 
+int BTdata = 0; 
 
  
 #endif
