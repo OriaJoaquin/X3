@@ -12,7 +12,7 @@ void setup()
   pinMode(NONSHINY_BASK, INPUT);
 
   Serial.begin(9600);
-  BT1.begin(9600);
+  Serial1.begin(9600);
 
   flagLed1 = true;
   flagLed2 = false;
@@ -32,42 +32,43 @@ void setup()
 void loop() 
 {
   int i = 0, j, k;
-  
-  if(BT1.available() && !BTBusy)
-  {
+
+  if ( Serial1.available() && !BTBusy ) 
+  { 
     BTBusy = true;
-    BTdata = BT1.read();
-    //Serial.write(BT1.read());
+    BTdata = Serial1.read();
+    Serial.write( BTdata );
+    
+  }
+  if ( Serial.available() )
+  {
+    Serial1.write( Serial.read() ); 
   }
   
-  if(Serial.available())
-    BT1.write(Serial.read());
 
-  if(BTBusy)
+  if(true)
   {
     switch(BTdata)
     {
       case DANCE_MODE:
-      {
+      
         currentMillisLed = millis();
         if (currentMillisLed - previousMillisLed > timeToActionDance)
         {
            dance();
            previousMillisLed = currentMillisLed;
         }
-      }
+      break;
       
       case EXIT: 
-      {
         if(!isCellCharged)
         {
           
         }
-      }
+      break;
       
       case BEGIN_RECOGNIZING:
-      {
-        if(!isCellCharged)
+        if(false)
         {
           currentMillisCell = millis();
           if(currentMillisCell - previousMillisCell > timeToActionCell)
@@ -78,7 +79,7 @@ void loop()
         }
         else
         {
-          if(!finished)
+          if(true)
           {
             currentMillisLed = millis();
             if (currentMillisLed - previousMillisLed > timeToActionLed)
@@ -94,7 +95,7 @@ void loop()
           currentMillisServo = millis();
           if(currentMillisServo - previousMillisServo > timeToActionServo)
           {
-            move_servo();
+            //move_servo();
             previousMillisServo = currentMillisServo;
           }
         }
@@ -107,10 +108,9 @@ void loop()
             previousMillisInfrared = currentMillisInfrared;
           }
         }
-      }
+      break;
       
       case MOVE_LEFT:
-      {
         currentMillisServo = millis();
         if(currentMillisServo - previousMillisServo > timeToActionServo)
         {
@@ -123,13 +123,12 @@ void loop()
           else
           {
             myservo.write(MIDDLE_ANGLE);
-            BTdata = false;
+            BTBusy = false;
           }
         }
-      }
+      break;
       
       case MOVE_RIGHT:
-      {
         currentMillisServo = millis();
         if(currentMillisServo - previousMillisServo > timeToActionServo)
         {
@@ -142,20 +141,21 @@ void loop()
           else
           {
             myservo.write(MIDDLE_ANGLE);
-            BTdata = false;
+            BTBusy = false;
           }
         }
-      }
+      break;
       
       case EMPTY_SHINY:
-      {
         ShinyBaskFull = false;
-      }
+      break;
       
       case EMPTY_NONSHINY:
-      {
         NonShinyBaskFull = false;
-      }
+      break;
+
+      default:
+        BTBusy = false;
     }   
   }
 }
@@ -321,7 +321,7 @@ void detect_weight()
     if (countCell == OBJECT_DETECTED)
     {
       isCellCharged = true;
-      BT1.write(actCell);
+      Serial1.write((byte)actCell);
     }
   }
   else
@@ -338,20 +338,20 @@ void check_infrared()
   BTBusy = false;
   flagLed1 = true;
   finished = false;                      
-  BT1.write(isShiny);
+  Serial1.write(isShiny);
   if(isShiny)
   {
     if(digitalRead(SHINY_BASK) == HIGH)
-      BT1.write("true");
+      Serial1.write("true");
     else
-      BT1.write("false");    
+      Serial1.write("false");    
   }
   else
   {
     if(digitalRead(NONSHINY_BASK) == HIGH)
-      BT1.write("true");
+      Serial1.write("true");
     else
-      BT1.write("false");
+      Serial1.write("false"); 
   }
-  BT1.write(actCell); 
+  Serial1.write((byte)actCell); 
 }
