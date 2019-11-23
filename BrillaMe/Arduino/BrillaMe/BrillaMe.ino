@@ -31,11 +31,10 @@ void setup()
 
 void loop() 
 {
+  Serial.print(bascule.get_units()*(-1));
   int i = 0, j, k;
-
-  if ( Serial1.available() && !BTBusy ) 
+  if ( Serial1.available() && !BTBusy) 
   { 
-    BTBusy = true;
     BTdata = Serial1.read();
     Serial.write( BTdata );
     
@@ -46,117 +45,60 @@ void loop()
   }
   
 
-  if(true)
+  switch(BTdata)
   {
-    switch(BTdata)
-    {
-      case DANCE_MODE:
-      
-        currentMillisLed = millis();
-        if (currentMillisLed - previousMillisLed > timeToActionDance)
-        {
-           dance();
-           previousMillisLed = currentMillisLed;
-        }
-      break;
-      
-      case EXIT: 
-        if(!isCellCharged)
-        {
-          
-        }
-      break;
-      
-      case BEGIN_RECOGNIZING:
-        if(false)
-        {
-          currentMillisCell = millis();
-          if(currentMillisCell - previousMillisCell > timeToActionCell)
-          {
-            detect_weight();
-            previousMillisCell = currentMillisCell;
-          }     
-        }
-        else
-        {
-          if(true)
-          {
-            currentMillisLed = millis();
-            if (currentMillisLed - previousMillisLed > timeToActionLed)
-            {
-              lights_on();
-              previousMillisLed = currentMillisLed;
-            }
-          }
-        }
+    case DANCE_MODE: 
+    if(!BTBusy)
+      dance();
+    break;
+    
+    case EXIT: exits(); 
+    break;
+    
+    case BEGIN_RECOGNIZING: 
+    if(!BTBusy)
+      detect_weight();
+    break;
 
-        if(finished)
-        {
-          currentMillisServo = millis();
-          if(currentMillisServo - previousMillisServo > timeToActionServo)
-          {
-            //move_servo();
-            previousMillisServo = currentMillisServo;
-          }
-        }
-        if(detectIR)
-        {
-          currentMillisInfrared = millis();
-          if(currentMillisInfrared - previousMillisInfrared > timeToActionInfrared)
-          {
-            check_infrared();
-            previousMillisInfrared = currentMillisInfrared;
-          }
-        }
-      break;
-      
-      case MOVE_LEFT:
-        currentMillisServo = millis();
-        if(currentMillisServo - previousMillisServo > timeToActionServo)
-        {
-          angle++;
-          Serial.println(angle);
-          if(angle < TOP_ANGLE)                                  
-          {
-             myservo.write(angle);
-          }
-          else
-          {
-            myservo.write(MIDDLE_ANGLE);
-            BTBusy = false;
-          }
-        }
-      break;
-      
-      case MOVE_RIGHT:
-        currentMillisServo = millis();
-        if(currentMillisServo - previousMillisServo > timeToActionServo)
-        {
-          angle--;
-          Serial.println(angle);
-          if(angle > BOTTOM_ANGLE)                                  
-          {
-             myservo.write(angle);
-          }
-          else
-          {
-            myservo.write(MIDDLE_ANGLE);
-            BTBusy = false;
-          }
-        }
-      break;
-      
-      case EMPTY_SHINY:
-        ShinyBaskFull = false;
-      break;
-      
-      case EMPTY_NONSHINY:
-        NonShinyBaskFull = false;
-      break;
+    case BEGIN_PATTERN: begin_pattern();
+    break;
 
-      default:
-        BTBusy = false;
-    }   
+    case MOVE_SERVO: move_servo();
+    break;
+
+    case CHECK_IR: check_infrared();
+    break;
+    
+    case MOVE_LEFT: 
+      move_left();
+    break;
+    
+    case MOVE_RIGHT:
+      move_right();
+    break;
+
+    case MOVE_MIDDLE:
+      move_middle();
+    
+    case EMPTY_SHINY:
+      ShinyBaskFull = false;
+    break;
+    
+    case EMPTY_NONSHINY:
+      NonShinyBaskFull = false;
+    break;
+
+    case LIGHTS_ON: 
+      lights_on();
+    break;
+
+    case LIGHTS_OUT: 
+      lights_out();
+    break;
+      
+
+    default:
+      BTBusy = false;
   }
 }
 
@@ -179,100 +121,111 @@ void readldr(int led)
 
 void dance()
 {
-  
-  if(ledpin == LED1)
+  currentMillisLed = millis();
+  if (currentMillisLed - previousMillisLed > timeToActionDance)
   {
-    analogWrite(LED4,0);
-    analogWrite(LED1,MAX_INTENSITY);
-    ledpin = LED2;  
-  }
-  else if(ledpin == LED2)
-  {
-    analogWrite(LED1, 0);
-    analogWrite(LED2,MAX_INTENSITY);
-    ledpin = LED3;
-  }
-  
-  else if(ledpin == LED3)
-  {
-    analogWrite(LED2, 0);
-    analogWrite(LED3,MAX_INTENSITY);
-    ledpin = LED4;
-  }
-  else
-  {
-    analogWrite(LED3,0);
-    analogWrite(LED4,MAX_INTENSITY);
-    ledpin = LED1;
+    previousMillisLed = currentMillisLed;
+    
+    if(ledpin == LED1)
+    {
+      analogWrite(LED4,0);
+      analogWrite(LED1,MAX_INTENSITY);
+      ledpin = LED2;  
+    }
+    else if(ledpin == LED2)
+    {
+      analogWrite(LED1, 0);
+      analogWrite(LED2,MAX_INTENSITY);
+      ledpin = LED3;
+    }
+    
+    else if(ledpin == LED3)
+    {
+      analogWrite(LED2, 0);
+      analogWrite(LED3,MAX_INTENSITY);
+      ledpin = LED4;
+    }
+    else
+    {
+      analogWrite(LED3,0);
+      analogWrite(LED4,MAX_INTENSITY);
+      ledpin = LED1;
+    }
   }
 }
 
 
-void lights_on()
-{     
-  intensity += INTENSITY_VALUE;
-  readldr(ledpin);
-  if(intensity >= MAX_INTENSITY)
+void begin_pattern()
+{ 
+  currentMillisLed = millis();
+  if (currentMillisLed - previousMillisLed > timeToActionLed)
   {
-    Serial.println("");
-    Serial.println("");
-    Serial.print("///////////LED ");
-    Serial.print(lednumber +1);
-    Serial.println(":    ");
-    Serial.print("Media LDR1   ");    
-    Serial.println(aveLdr1.mean());
-    Serial.print("Media LDR2   ");
-    Serial.println(aveLdr2.mean());
-    Serial.print("Media LDR3   ");
-    Serial.println(aveLdr3.mean());
-    Serial.print("Media LDR4   ");
-    Serial.println(aveLdr4.mean());
-
-    Serial.print("Desvio LDR1   "); 
-    Serial.println(aveLdr1.stddev());
-    Serial.print("Desvio LDR2   "); 
-    Serial.println(aveLdr2.stddev());
-    Serial.print("Desvio LDR3   "); 
-    Serial.println(aveLdr3.stddev());
-    Serial.print("Desvio LDR4   "); 
-    Serial.println(aveLdr4.stddev());
-
-    aveLed.push(aveLdr1.stddev());
-    aveLed.push(aveLdr2.stddev());
-    aveLed.push(aveLdr3.stddev());
-    aveLed.push(aveLdr4.stddev());
-    lednumber++;
-    intensity = 0;
-    if(ledpin == LED1)
-      ledpin = LED2;
-    else if(ledpin == LED2)
-      ledpin = LED3;
-    else if(ledpin == LED3)
-      ledpin = LED4;
-    else
+    previousMillisLed = currentMillisLed;    
+    intensity += INTENSITY_VALUE;
+    readldr(ledpin);
+    if(intensity >= MAX_INTENSITY)
     {
-      finished = true;
-      intensity = 0;
-      lednumber = 0;
-      ledpin = LED1;  
-    }
+      Serial.println("");
+      Serial.println("");
+      Serial.print("///////////LED ");
+      Serial.print(lednumber +1);
+      Serial.println(":    ");
+      Serial.print("Media LDR1   ");    
+      Serial.println(aveLdr1.mean());
+      Serial.print("Media LDR2   ");
+      Serial.println(aveLdr2.mean());
+      Serial.print("Media LDR3   ");
+      Serial.println(aveLdr3.mean());
+      Serial.print("Media LDR4   ");
+      Serial.println(aveLdr4.mean());
   
-    if(finished)
-    {
-      Serial.println("------ TOTAL ------ ");
-      Serial.print("Media de desvio: ");
-      Serial.println(aveLed.mean());
-     if(aveLed.mean() > MIN_SHINY_DEVIATION)
-       isShiny = true;
-     else
-       isShiny = false;
+      Serial.print("Desvio LDR1   "); 
+      Serial.println(aveLdr1.stddev());
+      Serial.print("Desvio LDR2   "); 
+      Serial.println(aveLdr2.stddev());
+      Serial.print("Desvio LDR3   "); 
+      Serial.println(aveLdr3.stddev());
+      Serial.print("Desvio LDR4   "); 
+      Serial.println(aveLdr4.stddev());
+  
+      aveLed.push(aveLdr1.stddev());
+      aveLed.push(aveLdr2.stddev());
+      aveLed.push(aveLdr3.stddev());
+      aveLed.push(aveLdr4.stddev());
+      lednumber++;
+      intensity = 0;
+      if(ledpin == LED1)
+        ledpin = LED2;
+      else if(ledpin == LED2)
+        ledpin = LED3;
+      else if(ledpin == LED3)
+        ledpin = LED4;
+      else
+      {
+        finished = true;
+        BTdata = MOVE_SERVO;
+        intensity = 0;
+        lednumber = 0;
+        ledpin = LED1;  
+      }
+    
+      if(finished)
+      {
+        Serial.println("------ TOTAL ------ ");
+        Serial.print("Media de desvio: ");
+        Serial.println(aveLed.mean());
+       if(aveLed.mean() > MIN_SHINY_DEVIATION)
+         isShiny = true;
+       else
+         isShiny = false;
+      }
+          
+      aveLed.clear();
+      aveLdr1.clear();
+      aveLdr2.clear();
+      aveLdr3.clear();
+      aveLdr4.clear();
     }
-        
-    aveLed.clear();
-    aveLdr1.clear();
-    aveLdr2.clear();
-    aveLdr3.clear();
-    aveLdr4.clear();
   }
 }
 
@@ -280,78 +233,194 @@ void move_servo()
 {
   if(isShiny)
   {
-    angle++;
-    Serial.println(angle);
-    if(angle < TOP_ANGLE)                                  
+    currentMillisServo = millis();
+    if(currentMillisServo - previousMillisServo > timeToActionServo)
     {
-       myservo.write(angle);
+      previousMillisServo = currentMillisServo;
+      angle++;
+      Serial.println(angle);
+      if(angle < TOP_ANGLE)                                  
+      {
+         myservo.write(angle);
+      }
+      else
+      {
+        myservo.write(MIDDLE_ANGLE);
+        BTdata = CHECK_IR;
+      }   
     }
     else
     {
-      myservo.write(MIDDLE_ANGLE);
-      detectIR = true;
-    }   
-  }
-  else
-  {
-     angle--;
-     if(angle > BOTTOM_ANGLE) 
-     {                                
-       myservo.write(angle);                        
-     }
-     else
-     {
-      myservo.write(MIDDLE_ANGLE);
-      detectIR = true;
-     }
+       angle--;
+       if(angle > BOTTOM_ANGLE) 
+       {                                
+         myservo.write(angle);                        
+       }
+       else
+       {
+        myservo.write(MIDDLE_ANGLE);
+        BTdata = CHECK_IR;
+       }
+    }
   }
 }
 
 void detect_weight()
 {
-  actCell = bascule.get_units() * (-1);
-  Serial.print("Leyendo: ");
-  Serial.print(actCell, 3);
-  Serial.print("  kgs");
-  Serial.println();
-  if(actCell < (prevCell + MIN_DEVIATION) && actCell > (prevCell - MIN_DEVIATION))
+  BTBusy = true;
+  currentMillisCell = millis();
+  if(currentMillisCell - previousMillisCell > timeToActionCell)
   {
-    if (actCell > minTolerance)
-    countCell++;
-    if (countCell == OBJECT_DETECTED)
+    previousMillisCell = currentMillisCell; 
+    actCell = bascule.get_units() * (-1);
+    Serial.print("Leyendo: ");
+    Serial.print(actCell, 3);
+    Serial.print("  kgs");
+    Serial.println();
+    if(actCell < (prevCell + MIN_DEVIATION) && actCell > (prevCell - MIN_DEVIATION))
     {
-      isCellCharged = true;
-      Serial1.write((byte)actCell);
+      if (actCell > minTolerance)
+      countCell++;
+      if (countCell == OBJECT_DETECTED)
+      {
+        BTdata = BEGIN_PATTERN;
+        Serial1.write((byte)actCell);
+      }
     }
-  }
-  else
-  {
-    countCell = 0;
-    prevCell = actCell;
+    else
+    {
+      countCell = 0;
+      prevCell = actCell;
+    }
   }
 }
 
 void check_infrared()
 {
-  detectIR = false;
-  isCellCharged = false;
-  BTBusy = false;
-  flagLed1 = true;
-  finished = false;                      
-  Serial1.write(isShiny);
-  if(isShiny)
+  currentMillisInfrared = millis();
+  if(currentMillisInfrared - previousMillisInfrared > timeToActionInfrared)
   {
-    if(digitalRead(SHINY_BASK) == HIGH)
-      Serial1.write("true");
+    previousMillisInfrared = currentMillisInfrared;
+    detectIR = false;
+    isCellCharged = false;
+    BTBusy = false;
+    flagLed1 = true;
+    finished = false;  
+    BTdata = EXIT;                    
+    Serial1.write(isShiny);
+    if(isShiny)
+    {
+      if(digitalRead(SHINY_BASK) == HIGH)
+        Serial1.write("true");
+      else
+        Serial1.write("false");    
+    }
     else
-      Serial1.write("false");    
-  }
-  else
+    {
+      if(digitalRead(NONSHINY_BASK) == HIGH)
+        Serial1.write("true");
+      else
+        Serial1.write("false"); 
+    }
+    Serial1.write((byte)actCell);
+  } 
+}
+
+void move_left()
+{
+  BTBusy = true;
+  currentMillisServo = millis();
+  if(currentMillisServo - previousMillisServo > timeToActionServo)
   {
-    if(digitalRead(NONSHINY_BASK) == HIGH)
-      Serial1.write("true");
-    else
-      Serial1.write("false"); 
+    angle++;
+    previousMillisServo = currentMillisServo;
+    if(angle < TOP_ANGLE)                                  
+    {
+      Serial.println(angle);
+      myservo.write(angle);
+      delay(0);
+    }
+    else  
+    {
+      BTBusy = false;
+      BTdata = 0;
+      servo_pos = 'l';
+    }
   }
-  Serial1.write((byte)actCell); 
+}
+
+void move_right()
+{
+  BTBusy = true;
+  currentMillisServo = millis();
+  if(currentMillisServo - previousMillisServo > timeToActionServo)
+  {
+    previousMillisServo  = currentMillisServo;
+    angle--;
+    Serial.println(angle);
+    if(angle > BOTTOM_ANGLE)                                  
+    {
+       myservo.write(angle);
+       delay(0);
+    }
+    else
+    {
+      BTBusy = false;
+      BTdata = 0;
+      servo_pos = 'r';
+    }
+  }
+}
+
+void move_middle()
+{
+  BTBusy = true;
+  currentMillisServo = millis();
+  if(currentMillisServo - previousMillisServo > timeToActionServo)
+  {
+    previousMillisServo  = currentMillisServo;
+    if(servo_pos == 'l')
+      angle--;
+    else
+      angle++;
+    if(angle != MIDDLE_ANGLE)                                  
+    {
+       myservo.write(angle);
+       delay(0);
+    }
+    else
+    {
+      BTBusy = false;
+      BTdata = 0;
+      servo_pos = 'c';
+    }
+  }
+}
+
+void lights_on()
+{
+  analogWrite(LED1,MAX_INTENSITY);
+  analogWrite(LED2,MAX_INTENSITY);
+  analogWrite(LED3,MAX_INTENSITY);
+  analogWrite(LED4,MAX_INTENSITY);
+}
+
+void lights_out()
+{
+  analogWrite(LED1,0);
+  analogWrite(LED2,0);
+  analogWrite(LED3,0);
+  analogWrite(LED4,0);
+}
+
+void exits()
+{
+  if(!BTBusy)
+  {
+    analogWrite(LED1,0);
+    analogWrite(LED2,0);
+    analogWrite(LED3,0);
+    analogWrite(LED4,0);
+    
+  }
 }

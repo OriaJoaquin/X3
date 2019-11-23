@@ -7,20 +7,26 @@
 #include "HX711.h"
 
 
-#define EXIT 0 
+const char EXIT = '0'; 
 const char BEGIN_RECOGNIZING = '1';
 const char DANCE_MODE = '2';
-const char MOVE_LEFT = '3';
-const char MOVE_RIGHT = '4';
+const char LIGHTS_ON = '3';
+const char LIGHTS_OUT = '4';
 const char EMPTY_SHINY = '5';
 const char EMPTY_NONSHINY = '6';
+const char BEGIN_PATTERN = '7';
+const char MOVE_SERVO = '8';
+const char CHECK_IR = '9';
+const char MOVE_LEFT = 'A';
+const char MOVE_RIGHT = 'B';
+const char MOVE_MIDDLE = 'C';
 
 #define SCALE 211000
 #define MIN_DEVIATION 0.01
 #define OBJECT_DETECTED 100
-#define MIDDLE_ANGLE 117
-#define BOTTOM_ANGLE 30
-#define TOP_ANGLE 90
+#define MIDDLE_ANGLE 119
+#define BOTTOM_ANGLE 99
+#define TOP_ANGLE 139
 #define MAX_INTENSITY 255
 #define MIN_SHINY_DEVIATION 70
 #define LED1 6 
@@ -37,8 +43,14 @@ const char EMPTY_NONSHINY = '6';
 
 void dance();
 void readldr(int);
-void lights_on();
+void begin_pattern();
 void move_servo();
+void move_left();
+void move_right();
+void lights_on();
+void lights_out();
+void exits();
+void move_middle();
 
 int pinData = A4;
 int pinClk = A5;
@@ -47,6 +59,7 @@ Servo myservo;
 int lednumber = 0, ledpin = LED1;
 int cell = A4;
 int angle = MIDDLE_ANGLE;
+char servo_pos = 'c';
 const short INTENSITY_VALUE = 4;
 
 Average<float> aveLdr1(64);
@@ -62,7 +75,7 @@ int previousMillisCell = 0, currentMillisCell = 0;
 int previousMillisLed = 0 , currentMillisLed = 0;
 int previousMillisServo = 0, currentMillisServo = 0;
 int previousMillisInfrared = 0, currentMillisInfrared= 0;
-int timeToActionServo = 5;
+int timeToActionServo = 10;
 int timeToActionCell = 50;
 int timeToActionLed = 40;
 int timeToActionDance = 250;
