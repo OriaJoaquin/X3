@@ -5,6 +5,7 @@
 #include <Servo.h>
 #include <Average.h>
 #include "HX711.h"
+#include "String.h"
 
 
 const char EXIT = '0'; 
@@ -23,10 +24,10 @@ const char MOVE_MIDDLE = 'C';
 
 #define SCALE 211000
 #define MIN_DEVIATION 0.01
-#define OBJECT_DETECTED 100
-#define MIDDLE_ANGLE 119
-#define BOTTOM_ANGLE 99
-#define TOP_ANGLE 139
+#define OBJECT_DETECTED 20
+#define MIDDLE_ANGLE 94//94
+#define BOTTOM_ANGLE 74
+#define TOP_ANGLE 124
 #define MAX_INTENSITY 255
 #define MIN_SHINY_DEVIATION 70
 #define LED1 6 
@@ -71,21 +72,23 @@ Average<float> aveLed(16);
 
 boolean flagLed1, flagLed2, flagLed3, flagLed4, finished;
 int intensity;
-int previousMillisCell = 0, currentMillisCell = 0;
-int previousMillisLed = 0 , currentMillisLed = 0;
-int previousMillisServo = 0, currentMillisServo = 0;
-int previousMillisInfrared = 0, currentMillisInfrared= 0;
-int timeToActionServo = 10;
-int timeToActionCell = 50;
-int timeToActionLed = 40;
-int timeToActionDance = 250;
-int timeToActionInfrared = 3000;
+unsigned long previousMillisCell = 0, currentMillisCell = 0;
+unsigned long previousMillisLed = 0 , currentMillisLed = 0;
+unsigned long previousMillisServo = 0, currentMillisServo = 0;
+unsigned long previousMillisInfrared = 0, currentMillisInfrared= 0;
+unsigned long timeToActionServo = 5;
+unsigned long timeToActionCell = 50;
+unsigned long timeToActionLed = 40;
+unsigned long timeToActionDance = 250;
+unsigned long timeToActionInfrared = 3000;
+int waiting_drop = 0;
 float prevCell = 0, actCell = 0;
 const float minTolerance = 0.02;
 int countCell;
 boolean isShiny = false, isCellCharged = false, BTBusy = false;
 boolean ShinyBaskFull = false, NonShinyBaskFull = false, detectIR = false;
 int BTdata = 0; 
+String Output;
 
  
 #endif
