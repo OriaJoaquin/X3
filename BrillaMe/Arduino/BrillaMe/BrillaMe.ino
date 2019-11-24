@@ -31,7 +31,6 @@ void setup()
 
 void loop() 
 {
-  Serial.print(bascule.get_units()*(-1));
   int i = 0, j, k;
   if ( Serial1.available() && !BTBusy) 
   { 
@@ -39,34 +38,38 @@ void loop()
     Serial.write( BTdata );
     
   }
-  if ( Serial.available() )
+  if ( Serial.available() && !BTBusy)
   {
-    Serial1.write( Serial.read() ); 
+    BTdata = Serial.read();
+    //Serial1.write( Serial.read() ); 
   }
   
 
   switch(BTdata)
   {
     case DANCE_MODE: 
-    if(!BTBusy)
+    if(!BTBusy) 
       dance();
     break;
     
-    case EXIT: exits(); 
+    case EXIT: 
+      exits(); 
     break;
     
-    case BEGIN_RECOGNIZING: 
-    if(!BTBusy)
+    case BEGIN_RECOGNIZING:
       detect_weight();
     break;
 
-    case BEGIN_PATTERN: begin_pattern();
+    case BEGIN_PATTERN: 
+      begin_pattern();
     break;
 
-    case MOVE_SERVO: move_servo();
+    case MOVE_SERVO:
+      move_servo();
     break;
 
-    case CHECK_IR: check_infrared();
+    case CHECK_IR: 
+      check_infrared();
     break;
     
     case MOVE_LEFT: 
@@ -79,6 +82,7 @@ void loop()
 
     case MOVE_MIDDLE:
       move_middle();
+    break;
     
     case EMPTY_SHINY:
       ShinyBaskFull = false;
@@ -218,6 +222,7 @@ void begin_pattern()
          isShiny = true;
        else
          isShiny = false;
+       BTdata = MOVE_SERVO;
       }
           
       aveLed.clear();
@@ -231,35 +236,51 @@ void begin_pattern()
 
 void move_servo()
 {
-  if(isShiny)
+  Serial.println("ENTRO 2");
+  currentMillisServo = millis();
+  if(currentMillisServo - previousMillisServo > timeToActionServo)
   {
-    currentMillisServo = millis();
-    if(currentMillisServo - previousMillisServo > timeToActionServo)
+    previousMillisServo = currentMillisServo;
+    if(isShiny)
     {
-      previousMillisServo = currentMillisServo;
+      Serial.println("Es brillante");
       angle++;
       Serial.println(angle);
       if(angle < TOP_ANGLE)                                  
       {
          myservo.write(angle);
+         delay(10);
       }
       else
       {
-        myservo.write(MIDDLE_ANGLE);
-        BTdata = CHECK_IR;
+        waiting_drop++;
+        if(waiting_drop == 200)
+        {
+          myservo.write(MIDDLE_ANGLE);
+          angle = MIDDLE_ANGLE;
+          BTdata = CHECK_IR;
+          waiting_drop = 0;
+        }
       }   
     }
     else
     {
+      Serial.println("Oscurito");
        angle--;
        if(angle > BOTTOM_ANGLE) 
        {                                
-         myservo.write(angle);                        
+         myservo.write(angle);                      
        }
        else
        {
-        myservo.write(MIDDLE_ANGLE);
-        BTdata = CHECK_IR;
+        waiting_drop++;
+        if(waiting_drop == 200)
+        {
+          myservo.write(MIDDLE_ANGLE);
+          angle = MIDDLE_ANGLE;
+          BTdata = CHECK_IR;
+          waiting_drop = 0;
+        }
        }
     }
   }
@@ -267,6 +288,7 @@ void move_servo()
 
 void detect_weight()
 {
+   //Serial1.println(actCell);
   BTBusy = true;
   currentMillisCell = millis();
   if(currentMillisCell - previousMillisCell > timeToActionCell)
@@ -284,7 +306,6 @@ void detect_weight()
       if (countCell == OBJECT_DETECTED)
       {
         BTdata = BEGIN_PATTERN;
-        Serial1.write((byte)actCell);
       }
     }
     else
@@ -306,23 +327,24 @@ void check_infrared()
     BTBusy = false;
     flagLed1 = true;
     finished = false;  
-    BTdata = EXIT;                    
-    Serial1.write(isShiny);
+    BTdata = EXIT;         
+    Serial1.println(isShiny);
+    Serial1.println(actCell);         
+    Serial.println(isShiny);
     if(isShiny)
     {
       if(digitalRead(SHINY_BASK) == HIGH)
-        Serial1.write("true");
+        Serial1.println('1');
       else
-        Serial1.write("false");    
+        Serial1.println('0');    
     }
     else
     {
       if(digitalRead(NONSHINY_BASK) == HIGH)
-        Serial1.write("true");
+        Serial1.println('1');
       else
-        Serial1.write("false"); 
+        Serial1.println('0'); 
     }
-    Serial1.write((byte)actCell);
   } 
 }
 
@@ -421,6 +443,5 @@ void exits()
     analogWrite(LED2,0);
     analogWrite(LED3,0);
     analogWrite(LED4,0);
-    
   }
 }
