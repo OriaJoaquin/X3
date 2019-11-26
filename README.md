@@ -87,3 +87,4 @@ Iluminarán el objeto para luego analizar cuanta luz refleja.
 ### Diagrama de software
 
 ![diagramaSoftware](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_software.png)
+
