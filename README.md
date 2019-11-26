@@ -79,3 +79,7 @@ Iluminarán el objeto para luego analizar cuanta luz refleja.
 ### Diagrama funcional
 
 ![diagramaFuncional](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/DiagramaFuncional.png)
+
+### Diagrama de software
+
+![diagramaSoftware](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_software.png)
