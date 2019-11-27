@@ -25,9 +25,9 @@ const char MOVE_MIDDLE = 'C';
 #define SCALE 211000
 #define MIN_DEVIATION 0.01
 #define OBJECT_DETECTED 20
-#define MIDDLE_ANGLE 94//94
-#define BOTTOM_ANGLE 74
-#define TOP_ANGLE 124
+#define MIDDLE_ANGLE 95//94
+#define BOTTOM_ANGLE 77
+#define TOP_ANGLE 113
 #define MAX_INTENSITY 255
 #define MIN_SHINY_DEVIATION 70
 #define LED1 6 
@@ -39,8 +39,8 @@ const char MOVE_MIDDLE = 'C';
 #define LDR3 A2 
 #define LDR4 A3
 #define SERVO 10
-#define SHINY_BASK 8
-#define NONSHINY_BASK 9
+#define IR_SHINY 8
+#define IR_NONSHINY 9
 
 void dance();
 void readldr(int);
@@ -58,7 +58,7 @@ int pinClk = A5;
 HX711 bascule;
 Servo myservo;
 int lednumber = 0, ledpin = LED1;
-int cell = A4;
+
 int angle = MIDDLE_ANGLE;
 char servo_pos = 'c';
 const short INTENSITY_VALUE = 4;
@@ -77,7 +77,7 @@ unsigned long previousMillisLed = 0 , currentMillisLed = 0;
 unsigned long previousMillisServo = 0, currentMillisServo = 0;
 unsigned long previousMillisInfrared = 0, currentMillisInfrared= 0;
 unsigned long timeToActionServo = 5;
-unsigned long timeToActionCell = 50;
+unsigned long timeToActionCell = 100;
 unsigned long timeToActionLed = 40;
 unsigned long timeToActionDance = 250;
 unsigned long timeToActionInfrared = 3000;

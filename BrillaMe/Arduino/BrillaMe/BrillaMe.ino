@@ -8,8 +8,8 @@ void setup()
   pinMode(LED2, OUTPUT);
   pinMode(LED3, OUTPUT);
   pinMode(LED4, OUTPUT);
-  pinMode(SHINY_BASK, INPUT);
-  pinMode(NONSHINY_BASK, INPUT);
+  pinMode(IR_SHINY, INPUT);
+  pinMode(IR_NONSHINY, INPUT);
 
   Serial.begin(9600);
   Serial1.begin(9600);
@@ -333,14 +333,14 @@ void check_infrared()
     Serial.println(isShiny);
     if(isShiny)
     {
-      if(digitalRead(SHINY_BASK) == HIGH)
+      if(digitalRead(IR_SHINY) == HIGH)
         Serial1.println('1');
       else
         Serial1.println('0');    
     }
     else
     {
-      if(digitalRead(NONSHINY_BASK) == HIGH)
+      if(digitalRead(IR_NONSHINY) == HIGH)
         Serial1.println('1');
       else
         Serial1.println('0'); 
