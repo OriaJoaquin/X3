@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <ImageView
+            android:id="@+id/imgLogoBrillaMe"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:srcCompat="@mipmap/logo_brilla_me" />
+
+        <Button
+            android:id="@+id/btnBuscarDispositivos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar dispositivos" />
+
+        <Button
+            android:id="@+id/btnAnalizarObjeto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Analizar objeto" />
+
+        <Button
+            android:id="@+id/btnEstadisticas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estadisticas" />
+
+        <Button
+            android:id="@+id/btnDiscoMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Disco mode" />
+
+        <Button
+            android:id="@+id/btnPrenderApagar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prender/Apagar luces" />
+
+        <Button
+            android:id="@+id/btnMoverCaja"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mover caja" />
+
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

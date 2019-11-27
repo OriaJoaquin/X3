@@ -77,7 +77,7 @@ unsigned long previousMillisLed = 0 , currentMillisLed = 0;
 unsigned long previousMillisServo = 0, currentMillisServo = 0;
 unsigned long previousMillisInfrared = 0, currentMillisInfrared= 0;
 unsigned long timeToActionServo = 5;
-unsigned long timeToActionCell = 100;
+unsigned long timeToActionCell = 50;
 unsigned long timeToActionLed = 40;
 unsigned long timeToActionDance = 250;
 unsigned long timeToActionInfrared = 3000;
