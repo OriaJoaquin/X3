@@ -97,11 +97,11 @@ Iluminarán el objeto para luego analizar cuanta luz refleja.
 Primeros pasos: 
  
 1) Conexión Android-BrillaMe 
-El usuario descargará, instalará, e ingresará a la aplicación de BrillaMe en su dispositivo android (*). 
-Deberá ingresar a la opción “Buscar Dispositivos”.
-Asegurarse de haber encendido el BT mediante la opción On.
-Visualizar vinculados mediante la opción “Ver Vinculados.
-Seleccionar el dispositivo BrillaMe.
+   - El usuario descargará, instalará, e ingresará a la aplicación de BrillaMe en su dispositivo android (*). 
+   - Deberá ingresar a la opción “Buscar Dispositivos”.
+   - Asegurarse de haber encendido el BT mediante la opción On.
+   - Visualizar vinculados mediante la opción “Ver Vinculados.
+   - Seleccionar el dispositivo BrillaMe.
  
 (*) Versión mínima de android : android 4.0, (Icream Sandwich)
  
