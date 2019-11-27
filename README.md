@@ -12,11 +12,11 @@ Grupo: X3 <br />
 
 Proyecto: BrillaMe<br /> 
 ---------
-### Descripción
+## Descripción
 
 BrillaMe es un robot de clasificación de objetos brillantes y no brillantes. 
 
-### Materiales
+## Materiales
 
 * Arduino uno 
 
@@ -72,28 +72,28 @@ Permite añadir a Arduino la función de poder comunicarse sin cables con otros 
 
 Iluminarán el objeto para luego analizar cuanta luz refleja.
 
-### Diagrama físico
+## Diagrama físico
 
 ![diagramaFisico](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/DiagramaFisico.png)
 
-### Diagrama funcional
+## Diagrama funcional
 
 ![diagramaFuncional](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/DiagramaFuncional.png)
 
-### Diagrama lógico
+## Diagrama lógico
 
 ![diagramaLogico](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_logico.png)
 
-### Diagrama de software
+## Diagrama de software
 
 ![diagramaSoftware](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_software.png)
 
-### Diagrama de ciruitos
+## Diagrama de ciruitos
 
 ![diagramaCircuitos](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_circuito.png)
 
 
-### Manual de usuario 
+## Manual de usuario 
 Primeros pasos: 
  
 1) Conexión Android-BrillaMe 
@@ -105,7 +105,7 @@ Seleccionar el dispositivo BrillaMe.
  
 (*) Versión mínima de android : android 4.0, (Icream Sandwich)
  
-# Eventos 
+### Eventos 
  
 1. Habilitar el modo detección de objeto 
    - Desde el menú principal de BrillaMe , el usuario deberá presionar el botón “Analizar Objeto” para ingresar a dicha ventana.
