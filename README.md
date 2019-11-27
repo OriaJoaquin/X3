@@ -13,7 +13,7 @@ Proyecto: BrillaMe :star: <br />
 ---------
 ## Descripción
 
-BrillaMe es un robot de clasificación de objetos. Basados en la toma de varias muestras de luz, en distintas intensidades y desde distintas posiciones, que luego seran procesadas podemos determinar si un objeto es ***brillante*** o ***no brillantes***.
+BrillaMe es un robot de clasificación de objetos. Basados en la toma de varias muestras de luz, en distintas intensidades y desde distintas posiciones, que luego seran procesadas podemos determinar si un objeto es ***brillante*** o ***no brillante***.
 ## Materiales
 
 * Arduino uno 
