@@ -9,12 +9,11 @@ Grupo: X3 <br />
 * [Oria, Joaquín Ariel](https://github.com/OriaJoaquin)<br /> 
 * [Schiro, Andrés](https://github.com/ASchiro7)<br /> 
 
-Proyecto: BrillaMe<br /> 
+Proyecto: BrillaMe :star: <br /> 
 ---------
 ## Descripción
 
-BrillaMe es un robot de clasificación de objetos brillantes y no brillantes. 
-
+BrillaMe es un robot de clasificación de objetos. Basados en la toma de varias muestras de luz, en distintas intensidades y desde distintas posiciones, que luego seran procesadas podemos determinar si un objeto es ***brillante*** o ***no brillantes***.
 ## Materiales
 
 * Arduino uno 
