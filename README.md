@@ -88,3 +88,7 @@ Iluminarán el objeto para luego analizar cuanta luz refleja.
 
 ![diagramaSoftware](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_software.png)
 
+### Diagrama de ciruitos
+
+![diagramaCircuitos](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_circuito.png)
+
