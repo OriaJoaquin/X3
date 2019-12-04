@@ -31,7 +31,6 @@ void setup()
 
 void loop() 
 {
-  int i = 0, j, k;
   if ( Serial1.available() && !BTBusy) 
   { 
     BTdata = Serial1.read();
@@ -41,7 +40,6 @@ void loop()
   if ( Serial.available() && !BTBusy)
   {
     BTdata = Serial.read();
-    //Serial1.write( Serial.read() ); 
   }
   
 
@@ -236,7 +234,6 @@ void begin_pattern()
 
 void move_servo()
 {
-  Serial.println("ENTRO 2");
   currentMillisServo = millis();
   if(currentMillisServo - previousMillisServo > timeToActionServo)
   {
@@ -265,7 +262,7 @@ void move_servo()
     }
     else
     {
-      Serial.println("Oscurito");
+      Serial.println("Es No Brillante");
        angle--;
        if(angle > BOTTOM_ANGLE) 
        {                                
@@ -288,13 +285,12 @@ void move_servo()
 
 void detect_weight()
 {
-   //Serial1.println(actCell);
   BTBusy = true;
   currentMillisCell = millis();
   if(currentMillisCell - previousMillisCell > timeToActionCell)
   {
     previousMillisCell = currentMillisCell; 
-    actCell = bascule.get_units() * (-1);
+    actCell = bascule.get_units();
     Serial.print("Leyendo: ");
     Serial.print(actCell, 3);
     Serial.print("  kgs");
@@ -330,7 +326,6 @@ void check_infrared()
     BTdata = EXIT;         
     Serial1.println(isShiny);
     Serial1.println(actCell);         
-    Serial.println(isShiny);
     if(isShiny)
     {
       if(digitalRead(SHINY_BASK) == HIGH)
