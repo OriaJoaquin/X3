@@ -22,12 +22,12 @@ const char MOVE_LEFT = 'A';
 const char MOVE_RIGHT = 'B';
 const char MOVE_MIDDLE = 'C';
 
-#define SCALE 211000
+#define SCALE 145000
 #define MIN_DEVIATION 0.01
 #define OBJECT_DETECTED 20
-#define MIDDLE_ANGLE 95//94
-#define BOTTOM_ANGLE 77
-#define TOP_ANGLE 113
+#define MIDDLE_ANGLE 86//94
+#define BOTTOM_ANGLE 65
+#define TOP_ANGLE 115
 #define MAX_INTENSITY 255
 #define MIN_SHINY_DEVIATION 70
 #define LED1 6 
@@ -58,7 +58,6 @@ int pinClk = A5;
 HX711 bascule;
 Servo myservo;
 int lednumber = 0, ledpin = LED1;
-
 int angle = MIDDLE_ANGLE;
 char servo_pos = 'c';
 const short INTENSITY_VALUE = 4;
