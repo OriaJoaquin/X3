@@ -39,8 +39,8 @@ const char MOVE_MIDDLE = 'C';
 #define LDR3 A2 
 #define LDR4 A3
 #define SERVO 10
-#define SHINY_BASK 8
-#define NONSHINY_BASK 9
+#define IR_SHINY 8
+#define IR_NONSHINY 9
 
 void dance();
 void readldr(int);

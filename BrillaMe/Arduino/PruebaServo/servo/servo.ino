@@ -10,15 +10,12 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if(Serial.available())
-  asd = Serial.read();
-  if(asd == 1)
-  myservo.write(150);
-  else if (asd == 2)
-  myservo.write(100);
-  else if (asd == 3)
-  myservo.write(50);
-/*  int angle;
+  myservo.write(95);
+  // medio 95
+  // izquieda 78
+  // derecha 112
+  
+/*  int angle;95
       for(angle = 117; angle < 147; angle++)    // command to move from 0 degrees to 180 degrees 
       {                                  
           myservo.write(angle);                 //command to rotate the servo to the specified angle

@@ -4,19 +4,17 @@ Proyecto de Sistemas operativos avanzados
 
 Grupo: X3 <br /> 
 -----------
-* [Barja Fernandez, Omar Max](https://github.com/omx17)<br /> 
 * [Facal, Ernesto Manuel](https://github.com/ErnestoFacal)<br />
 * [Marson, Tomás](https://github.com/tomimarson)
 * [Oria, Joaquín Ariel](https://github.com/OriaJoaquin)<br /> 
 * [Schiro, Andrés](https://github.com/ASchiro7)<br /> 
 
-Proyecto: BrillaMe<br /> 
+Proyecto: BrillaMe :star: <br /> 
 ---------
-### Descripción
+## Descripción
 
-BrillaMe es un robot de clasificación de objetos brillantes y no brillantes. 
-
-### Materiales
+BrillaMe es un robot de clasificación de objetos. Basados en la toma de varias muestras de luz, en distintas intensidades y desde distintas posiciones, que luego seran procesadas podemos determinar si un objeto es ***brillante*** o ***no brillante***.
+## Materiales
 
 * Arduino uno 
 
@@ -72,10 +70,65 @@ Permite añadir a Arduino la función de poder comunicarse sin cables con otros 
 
 Iluminarán el objeto para luego analizar cuanta luz refleja.
 
-### Diagrama físico
+## Diagrama físico
 
 ![diagramaFisico](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/DiagramaFisico.png)
 
-### Diagrama funcional
+## Diagrama funcional
 
 ![diagramaFuncional](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/DiagramaFuncional.png)
+
+## Diagrama lógico
+
+![diagramaLogico](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_logico.png)
+
+## Diagrama de software
+
+![diagramaSoftware](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_software.png)
+
+## Diagrama de ciruitos
+
+![diagramaCircuitos](https://github.com/OriaJoaquin/X3/blob/master/Diagramas/Diagrama_circuito.png)
+
+
+## Manual de usuario 
+Primeros pasos: 
+ 
+1) Conexión Android-BrillaMe 
+   - El usuario descargará, instalará, e ingresará a la aplicación de BrillaMe en su dispositivo android (*). 
+   - Deberá ingresar a la opción “Buscar Dispositivos”.
+   - Asegurarse de haber encendido el BT mediante la opción On.
+   - Visualizar vinculados mediante la opción “Ver Vinculados.
+   - Seleccionar el dispositivo BrillaMe.
+ 
+(*) Versión mínima de android : android 4.0, (Icream Sandwich)
+ 
+### Eventos 
+ 
+1. Habilitar el modo detección de objeto 
+   - Desde el menú principal de BrillaMe , el usuario deberá presionar el botón “Analizar Objeto” para ingresar a dicha ventana.
+   - Luego de esto deberá darle a la opción “Comenzar”.
+   - Activando esta opción, el usuario deberá colocar un objeto dentro de la caja.
+   - Luego de detectar la celda de carga una variación en el peso, comenzará el algoritmo de análisis de objeto brillante.
+   - Una vez definido si el objeto es o no brillante, la caja se inclinara en base a la señal que se le envie al servo hacia un lado o al otro ( brillante o no ) dejando caer al objeto en su respectivo recipiente.
+   - Luego de esto se podrá repetir el proceso nuevamente ( hasta que alguno de los 2 recipientes se determine lleno en base a los infrarrojos).
+ 
+2. Visualización de estadísticas 
+   - Desde el menú principal de BrillaMe, el usuario podrá ver las estadísticas que fueron recolectadas a lo largo del uso de la aplicación apretando el botón “Estadísticas”, las cuales serán: 
+ 
+     - Cesto: Indica si dicho cesto esta lleno o no. 
+     - Peso: El peso total que posee el recipiente.
+     - Cantidad de elementos: Cantidad de elementos que posee dicho cesto.
+(*) Estos 3 valores se indicaran tanto para el cesto de objetos brillantes, como el de objetos no brillantes.
+3. Acceder al Disco Mode
+   - Desde el menú principal de BrillaMe, acceder a la opción Disco Mode.
+   - Luego de esto agitar 2 veces el dispositivo Android para de esta manera activar el Disco Mode.
+
+4. Prender/apagar Luces
+   - Desde el menú principal de BrillaMe, acceder a la opción de “Prender/Apagar Luces”, luego de esto tapar el sensor de proximidad del celular, el cual se encuentra en la zona superior frontal al dispositivo (cerca de la cámara frontal).
+   - Luego de esto, se encenderán los leds siempre y cuando dicha zona quede tapada.
+
+
+5. Mover caja
+   - Desde el menú principal de BrillaMe, acceder a la opción de “Mover Caja”.
+   - Luego de esto orientar el dispositivo hacia un lado u otro para de esta manera hacer girar la caja hacia el respectivo lado que estemos girando el dispositivo.
